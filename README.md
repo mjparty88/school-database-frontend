@@ -13,9 +13,10 @@ Please read below for the folder structure:
 
 Because this repository contains multiple applications, there are multiple package-json files. There are also multiple node_modules which have been removed in .gitignore.
 
-To run the application:
-* clone this repository
+To run the full application:
+* clone the full repository
 * navigate to the 'api' folder in your terminal and type 'npm install' to install the dependencies for the back-end application
+* seed the SQLite database with 'npm run seed'
 * type 'npm start' to start the client application, which will run on port 5000
 * in seperate terminal navigate to the 'client' folder in your terminal and type 'npm install' to install the dependencies for the front-end application
 * type 'npm start' to start the client application, which will run on port 3000
