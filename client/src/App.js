@@ -5,6 +5,7 @@ import {
   Switch
 } from 'react-router-dom';
 import Header from './components/Header';
+import Courses from './components/Courses'
 
 
 export default function App() {
@@ -22,10 +23,10 @@ export default function App() {
 
   return (
     <Router>
-      <Header />
       <div>
+      <Header />
         <Switch>
-          <Route exact path="/" />
+          <Route exact path="/" component={Courses} />
           <Route exact path="/sign-up" />
           <Route exact path="/sign-in" />
           <Route exact path="/course-detail" />
