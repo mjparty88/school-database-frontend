@@ -5,7 +5,9 @@ import {
   Switch
 } from 'react-router-dom';
 import Header from './components/Header';
-import Courses from './components/Courses'
+import Courses from './components/Courses';
+import CourseDetails from './components/CourseDetails';
+
 
 
 export default function App() {
@@ -27,14 +29,14 @@ export default function App() {
       <Header />
         <Switch>
           <Route exact path="/" component={Courses} />
-          <Route exact path="/sign-up" />
-          <Route exact path="/sign-in" />
-          <Route exact path="/course-detail" />
-          <Route exact path="/create-course" />
-          <Route exact path="/update-course" />
-          <Route exact path="/error" />
-          <Route exact path="/forbidden" />
-          <Route exact path="/notfound" />
+          <Route path="/sign-up" />
+          <Route path="/sign-in" />
+          <Route path="/course-detail" component={CourseDetails} />
+          <Route path="/create-course" />
+          <Route path="/update-course" />
+          <Route path="/error" />
+          <Route path="/forbidden" />
+          <Route path="/notfound" />
         </Switch>
       </div>
     </Router>
