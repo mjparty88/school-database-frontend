@@ -2,6 +2,7 @@
 
 // load modules
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const apiRouter = require('./routes/api');
 const bodyParser = require('body-parser');
@@ -16,7 +17,10 @@ const app = express();
 app.use(morgan('dev'));
 
  // setup bodyParser to read incoming application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+// Enable CORS for all requiests
+app.use(cors());
 
 // TODO setup your api routes here
 app.use('/api', apiRouter);
