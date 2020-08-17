@@ -10,20 +10,20 @@ export default class UserSignIn extends Component {
 
   render() {
     return (
-      <div class="bounds">
-        <div class="grid-33 centered signin">
+      <div className="bounds">
+        <div className="grid-33 centered signin">
           <h1>Sign In</h1>
           <div>
             <form>
               <div>
-                <input id="emailAddress" name="emailAddress" type="text" class placeholder="Email Address"/>
+                <input id="emailAddress" name="emailAddress" type="text" className placeholder="Email Address"/>
               </div>
               <div>
-                <input id="password" name="password" type="password" class placeholder="Password"/>
+                <input id="password" name="password" type="password" className placeholder="Password"/>
               </div>
               <div>
-                <button class="button" type="submit">Sign In</button>
-                <button class="button button-secondary" onclick="event.preventDefault(); location.href='index.html'">Cancel</button>
+                <button className="button" type="submit">Sign In</button>
+                <button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html'">Cancel</button>
               </div>
             </form>
           </div>

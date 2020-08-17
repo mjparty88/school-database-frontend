@@ -9,12 +9,12 @@ export default class CreateCourse extends Component {
 
   render() {
     return (
-        <div class="bounds course-detail">
+        <div className="bounds course-detail">
           <h1>Create Course</h1>
           <div>
             <div>
-              <h2 class="validation--errors--label">Validation errors</h2>
-              <div class="validation-errors">
+              <h2 className="validation--errors--label">Validation errors</h2>
+              <div className="validation-errors">
                 <ul>
                   <li>Please provide a value for "Title"</li>
                   <li>Please provide a value for "Description"</li>
@@ -22,41 +22,41 @@ export default class CreateCourse extends Component {
               </div>
             </div>
             <form>
-              <div class="grid-66">
-                <div class="course--header">
-                  <h4 class="course--label">Course</h4>
+              <div className="grid-66">
+                <div className="course--header">
+                  <h4 className="course--label">Course</h4>
                   <div>
-                    <input id="title" name="title" type="text" class="input-title course--title--input" placeholder="Course title..."></input>
+                    <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."></input>
                   </div>
                   <p>By The Logged In User</p>
                 </div>
-                <div class="course--description">
+                <div className="course--description">
                   <div>
-                    <textarea id="description" name="description" class placeholder="Course description..."></textarea>
+                    <textarea id="description" name="description" className placeholder="Course description..."></textarea>
                   </div>
                 </div>
               </div>
-              <div class="grid-25 grid-right">
-                <div class="course--stats">
-                  <ul class="course--stats--list">
-                    <li class="course--stats--list--items">
+              <div className="grid-25 grid-right">
+                <div className="course--stats">
+                  <ul className="course--stats--list">
+                    <li className="course--stats--list--items">
                       <h4>Estimated Time</h4>
                       <div>
-                        <input id="estimatedTime" name="estimatedTime" type="text" class="course--time--input" placeholder="Hours"></input>
+                        <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours"></input>
                       </div>
                     </li>
-                    <li class="course--stats--list--items">
+                    <li className="course--stats--list--items">
                       <h4>Materials Needed</h4>
                       <div>
-                        <textarea id="materialsNeeded" name="materialsNeeded" class placeholder="List materials..."></textarea>
+                        <textarea id="materialsNeeded" name="materialsNeeded" className placeholder="List materials..."></textarea>
                       </div>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div class="grid-100 pad=bottom">
-                <button class="button" type="submit">Create Course</button>
-                <button class="button button-secondary" onclick="event.preventDefault(); location.href='index.html'">Cancel</button>
+              <div className="grid-100 pad=bottom">
+                <button className="button" type="submit">Create Course</button>
+                <button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html'">Cancel</button>
               </div>
             </form>
           </div>

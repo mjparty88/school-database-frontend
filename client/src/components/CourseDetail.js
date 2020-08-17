@@ -11,25 +11,25 @@ export default class CourseDetail extends Component {
   render() {
     return (
       <div>
-        <div class="actions--bar">
-          <div class="bounds">
-            <div class="grid-100">
+        <div className="actions--bar">
+          <div className="bounds">
+            <div className="grid-100">
               <span>
-                <Link class="button" to="/"> Update Course </Link>
-                <Link class="button" to="/"> Delete Course </Link>
+                <Link className="button" to="/"> Update Course </Link>
+                <Link className="button" to="/"> Delete Course </Link>
               </span>
-              <Link class="button button-secondary" to="/">Return to List</Link>
+              <Link className="button button-secondary" to="/">Return to List</Link>
             </div>
           </div>
         </div>
-        <div class="bounds course--detail">
-          <div class="grid-66">
-            <div class="course--header">
-              <h4 class="course--label">Course</h4>
-              <h3 class="course--title">The Name of the Course</h3>
+        <div className="bounds course--detail">
+          <div className="grid-66">
+            <div className="course--header">
+              <h4 className="course--label">Course</h4>
+              <h3 className="course--title">The Name of the Course</h3>
               <p>By Joe Smith</p>
             </div>
-            <div class="course--description">
+            <div className="course--description">
               <p>Paragraph 1</p>
               <p>Paragraph 2</p>
               <p>Paragraph 3</p>
@@ -37,14 +37,14 @@ export default class CourseDetail extends Component {
               <p>Paragraph 5</p>
             </div>
           </div>
-          <div class="grid-25 grid-right">
-            <div class="course--stats">
-              <ul class="course--stats--list">
-                <li class="course--stats--list--item">
+          <div className="grid-25 grid-right">
+            <div className="course--stats">
+              <ul className="course--stats--list">
+                <li className="course--stats--list--item">
                   <h4>Estimated Time</h4>
                   <h3>14 hours</h3>
                 </li>
-                <li class="course--stats--list--item">
+                <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
                     <li>Item 1</li>

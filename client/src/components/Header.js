@@ -5,12 +5,12 @@ export default function Header() {
 
   return (
 
-      <div class="header">
-        <div class ="bounds">
-          <h1 class="header--logo">Courses</h1>
+      <div className="header">
+        <div className ="bounds">
+          <h1 className="header--logo">Courses</h1>
           <nav>
-            <Link class="signup" to="/">Sign Up</Link>
-            <Link class="signin" to="/">Sign In</Link>
+            <Link className="signup" to="/">Sign Up</Link>
+            <Link className="signin" to="/">Sign In</Link>
           </nav>
         </div>
       </div>
