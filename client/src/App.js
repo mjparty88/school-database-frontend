@@ -7,6 +7,8 @@ import {
 import Header from './components/Header';
 import Courses from './components/Courses';
 import CourseDetails from './components/CourseDetails';
+import Error from './components/Error'
+import SignIn from './components/SignIn'
 
 
 
@@ -30,13 +32,13 @@ export default function App() {
         <Switch>
           <Route exact path="/" component={Courses} />
           <Route path="/sign-up" />
-          <Route path="/sign-in" />
+          <Route path="/sign-in" component={SignIn}/>
           <Route path="/course-detail" component={CourseDetails} />
           <Route path="/create-course" />
           <Route path="/update-course" />
-          <Route path="/error" />
-          <Route path="/forbidden" />
-          <Route path="/notfound" />
+          <Route path="/error" component={Error}/>
+          <Route path="/forbidden" component={Error}/>
+          <Route path="/notfound" component={Error}/>
         </Switch>
       </div>
     </Router>
