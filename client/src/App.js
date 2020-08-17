@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import Header from './components/Header';
 import Courses from './components/Courses';
-import CourseDetails from './components/CourseDetails';
+import CourseDetail from './components/CourseDetail';
 import ErrorPage from './components/ErrorPage'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
@@ -36,7 +36,7 @@ export default function App() {
           <Route exact path="/" component={Courses} />
           <Route path="/sign-up" component={SignUp} />
           <Route path="/sign-in" component={SignIn}/>
-          <Route path="/course-detail" component={CourseDetails} />
+          <Route path="/course-detail" component={CourseDetail} />
           <Route path="/create-course" component={CreateCourse}/>
           <Route path="/update-course" component={UpdateCourse}/>
           <Route path="/error" component={ErrorPage}/>
