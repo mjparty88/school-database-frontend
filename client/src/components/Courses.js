@@ -18,7 +18,6 @@ export default class Courses extends Component {
       .then(response => this.setState({
           courses: response.data
       }))
-      console.log(this.state.courses)
     }
 
   render() {

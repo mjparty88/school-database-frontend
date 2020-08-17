@@ -5,7 +5,24 @@ export default class UserSignIn extends Component {
 
   constructor(props){
     super(props)
-    this.state = {}
+    this.state = {
+      emailAddress: null,
+      password: null
+    }
+  }
+
+  handleEmailChange(e) {
+    console.log(e.target.value)
+    this.setState({
+      emailAddress: e.target.value
+    })
+
+  }
+  handlePasswordChange(e) {
+    console.log(e.target.value)
+    this.setState({
+      password: e.target.value
+    })
   }
 
   render() {
@@ -16,14 +33,14 @@ export default class UserSignIn extends Component {
           <div>
             <form>
               <div>
-                <input id="emailAddress" name="emailAddress" type="text" className placeholder="Email Address"/>
+                <input id="emailAddress" name="emailAddress" type="text" onChange={this.handleEmailChange.bind(this)} className placeholder="Email Address"/>
               </div>
               <div>
-                <input id="password" name="password" type="password" className placeholder="Password"/>
+                <input id="password" name="password" type="password" onChange={this.handlePasswordChange.bind(this)} className placeholder="Password"/>
               </div>
               <div>
                 <button className="button" type="submit">Sign In</button>
-                <button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html'">Cancel</button>
+                <button className="button button-secondary" onClick="event.preventDefault(); location.href='index.html'">Cancel</button>
               </div>
             </form>
           </div>
