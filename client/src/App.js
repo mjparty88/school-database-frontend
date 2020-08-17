@@ -8,8 +8,8 @@ import Header from './components/Header';
 import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
 import ErrorPage from './components/ErrorPage'
-import SignIn from './components/SignIn'
-import SignUp from './components/SignUp'
+import UserSignIn from './components/UserSignIn'
+import UserSignUp from './components/UserSignUp'
 import CreateCourse from './components/CreateCourse'
 import UpdateCourse from './components/UpdateCourse'
 
@@ -34,8 +34,8 @@ export default function App() {
       <Header />
         <Switch>
           <Route exact path="/" component={Courses} />
-          <Route path="/sign-up" component={SignUp} />
-          <Route path="/sign-in" component={SignIn}/>
+          <Route path="/sign-up" component={UserSignUp} />
+          <Route path="/sign-in" component={UserSignIn}/>
           <Route path="/course-detail" component={CourseDetail} />
           <Route path="/create-course" component={CreateCourse}/>
           <Route path="/update-course" component={UpdateCourse}/>
