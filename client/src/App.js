@@ -7,9 +7,10 @@ import {
 import Header from './components/Header';
 import Courses from './components/Courses';
 import CourseDetails from './components/CourseDetails';
-import ErrorPage from './components/Error'
+import ErrorPage from './components/ErrorPage'
 import SignIn from './components/SignIn'
 import CreateCourse from './components/CreateCourse'
+import UpdateCourse from './components/UpdateCourse'
 
 
 
@@ -36,7 +37,7 @@ export default function App() {
           <Route path="/sign-in" component={SignIn}/>
           <Route path="/course-detail" component={CourseDetails} />
           <Route path="/create-course" component={CreateCourse}/>
-          <Route path="/update-course" />
+          <Route path="/update-course" component={UpdateCourse}/>
           <Route path="/error" component={ErrorPage}/>
           <Route path="/forbidden" component={ErrorPage}/>
           <Route component={ErrorPage}/>
