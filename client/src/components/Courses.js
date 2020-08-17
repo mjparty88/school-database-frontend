@@ -13,19 +13,23 @@ export default class Courses extends Component {
     }
   }
 
-  componentDidMount() {
-    axios.get('http://localhost:5000/api/courses')
+  async componentDidMount() {
+   await axios.get('http://localhost:5000/api/courses')
       .then(response => this.setState({
-          courses: response
+          courses: response.data
       }))
+      console.log(this.state.courses)
     }
 
   render() {
     return (
       <div className="bounds">
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
+          {this.state.courses.map(
+            course => <CourseCard
+              key={course.id}
+              courseInfo={course}
+              url={`/courses/${course.id}`}/>
+            )}
           <AddNewCourseCard />
       </div>
     )
