@@ -9,6 +9,7 @@ import Courses from './components/Courses';
 import CourseDetails from './components/CourseDetails';
 import Error from './components/Error'
 import SignIn from './components/SignIn'
+import CreateCourse from './components/CreateCourse'
 
 
 
@@ -34,11 +35,11 @@ export default function App() {
           <Route path="/sign-up" />
           <Route path="/sign-in" component={SignIn}/>
           <Route path="/course-detail" component={CourseDetails} />
-          <Route path="/create-course" />
+          <Route path="/create-course" component={CreateCourse}/>
           <Route path="/update-course" />
           <Route path="/error" component={Error}/>
           <Route path="/forbidden" component={Error}/>
-          <Route path="/notfound" component={Error}/>
+          <Route component={Error}/>
         </Switch>
       </div>
     </Router>
