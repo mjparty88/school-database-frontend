@@ -1,16 +1,25 @@
-import React from 'react';
+import React, {Component} from 'react';
 import CourseCard from './CourseCard'
 import AddNewCourseCard from './AddNewCourseCard'
 
 
-export default function Courses(props) {
+export default class Courses extends Component {
 
-  return (
-    <div class="bounds">
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-        <AddNewCourseCard />
-    </div>
-  )
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
+  render() {
+    return (
+      <div class="bounds">
+          <CourseCard />
+          <CourseCard />
+          <CourseCard />
+          <AddNewCourseCard />
+      </div>
+    )
+
+  }
+
 }
