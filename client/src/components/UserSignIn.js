@@ -12,16 +12,15 @@ export default class UserSignIn extends Component {
   }
 
   handleEmailChange(e) {
-    console.log(e.target.value)
     this.setState({
       emailAddress: e.target.value
     })
 
   }
   handlePasswordChange(e) {
-    console.log(e.target.value)
     this.setState({
       password: e.target.value
+      //To future me. I don't like that the user's password is displayed in the React DevTools. Think of something different. Maybe hash each time?
     })
   }
 
