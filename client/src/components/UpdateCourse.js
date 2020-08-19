@@ -4,7 +4,36 @@ export default class UpdateCourse extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      title: this.props.title,
+      description: this.props.description,
+      estimatedTime: this.props.estimatedTime,
+      materialsNeeded: this.props.materialsNeeded,
+    }
+  }
+
+  handleTitleChange(e) {
+    this.setState({
+      title: e.target.value
+    })
+  }
+
+  handleDescChange(e) {
+    this.setState({
+      description: e.target.value
+    })
+  }
+
+  handleEstTimeChange(e) {
+    this.setState({
+      estimatedTime: e.target.value
+    })
+  }
+
+  handleMaterialsChange(e) {
+    this.setState({
+      materialsNeeded: e.target.value
+    })
   }
 
   render(){
@@ -17,13 +46,13 @@ export default class UpdateCourse extends Component {
               <div className="course--header">
                 <h4 className="course--label">Course</h4>
                 <div>
-                  <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..." value="Build a bitching bookcase"></input>
+                  <input id="title" name="title" type="text" className="input-title course--title--input" onChange={this.handleTitleChange.bind(this)} placeholder="Course title..." value={this.state.title}></input>
                 </div>
                 <p>By the Logged in User</p>
               </div>
               <div className="course--description">
                 <div>
-                  <textarea id="description" name="descirption" className placeholder="Course description..."> All of the flavor text of the bitching bookcase goes here.</textarea>
+                  <textarea id="description" name="descirption" className onChange={this.handleDescChange.bind(this)} placeholder="Course description...">{this.state.description}</textarea>
                 </div>
               </div>
             </div>
@@ -33,13 +62,13 @@ export default class UpdateCourse extends Component {
                   <li className="course--stats--list--item">
                     <h4>Estimated Time</h4>
                     <div>
-                      <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours" value="14 hours"></input>
+                      <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" onChange={this.handleEstTimeChange.bind(this)} placeholder="Hours" value={this.state.estimatedTime}></input>
                     </div>
                   </li>
                   <li className="course--stats--list--item">
                     <h4>Materials Needed</h4>
                     <div>
-                      <textarea id="materialsNeeded" name="materialsNeeded" className placeholder="List materials">All of the materials for the bitching bookcase go here</textarea>
+                      <textarea id="materialsNeeded" name="materialsNeeded" className onChange={this.handleMaterialsChange.bind(this)} placeholder="Materials needed for the course">{this.state.materialsNeeded}</textarea>
                     </div>
                   </li>
                 </ul>
@@ -47,7 +76,7 @@ export default class UpdateCourse extends Component {
             </div>
             <div className="grid-100 pad-bottom">
               <button className="button" type="submit">Update Course</button>
-              <button className="button button-secondary" onclick="event.preventDefault(); location.href='course-detail'">Cancel</button>
+              <button className="button button-secondary" onClick="event.preventDefault(); location.href='course-detail'">Cancel</button>
             </div>
           </form>
         </div>
