@@ -22,20 +22,13 @@ export default class Data {
     return fetch(url, options);
   }
 
-/* the following contains the main routes for the app and a summary of the HTTP requests they will need to make to the server
-  "/" - Courses front end routes (GET to COURSES)
-  "/courses/create" - CreateCourse (POST to COURSES)
-  "/courses/:id/update" - UpdateCourse (GET to COURSES/:id and PUT to COURSES/:id)
-  "/courses/:id" - CourseDetail (GET to COURSES/:id)
-  "/signin" - UserSignIn (GET to USERS... I think (this will then store the result in a cookie and store on the browser))
-  "/signup" - UserSignUp (POST to USERS)
-  "/signout" - UserSignOut (...doesn't require a call to the backend)
-
-Summary of calls required (6)
+/* 
+Summary of calls required (7)
 - GET to COURSES
 - POST to COURSES
 - GET to COURSES/:id
 - PUT to COURSES/:id
+- DELETE to COURSES/:id
 - GET to USERS
 - POST to USERS
 */
@@ -53,8 +46,8 @@ async getCourses() {
 }
 
 //2. POST to Courses
-async postCourses() {
-  const response = await this.api("/courses", "POST", true, {username:"", password: "" })
+async postCourses(emailAddress, password) {
+  const response = await this.api("/courses", "POST", true, {username: emailAddress, password: password})
   if(response.status === 201) {
     return response.json().then(data => data)
   } else {
@@ -62,7 +55,8 @@ async postCourses() {
   }
 }
 
-  //3. GET to Courses/:id
+//3. GET to Courses/:id
+//doesn't require authentication
 
 async getCourse(id) {
   const response = await this.api(`/courses/${id}`, "GET", null, null);
@@ -73,34 +67,48 @@ async getCourse(id) {
   }
 }
 
-/*
-  async getUser(username, password) {
-    const response = await this.api(`/users`, 'GET', null, true, { username, password });
-    if (response.status === 200) {
-      return response.json().then(data => data);
-    }
-    else if (response.status === 401) {
-      return null;
-    }
-    else {
-      throw new Error();
-    }
-  }
+//4. PUT to Courses/:id
 
-  async createUser(user) {
-    const response = await this.api('/users', 'POST', user);
-    if (response.status === 201) {
-      return [];
-    }
-    else if (response.status === 400) {
-      return response.json().then(data => {
-        return data.errors;
-      });
-    }
-    else {
-      throw new Error();
-    }
+async updateCourse(course, emailAddress, password) {
+  const response = await this.api(`/course/${course.id}`, 'PUT', course, true, {username: emailAddress, password: password})
+  if(response.status === 204) {
+    return [];
+  } else {
+    throw new Error();
   }
+}
 
-*/
+//5. DELETE to Courses/:id
+
+async deleteCourse(course, emailAddress, password) {
+  const response = await this.api(`/course/${course.id}`, 'DELETE', course, true, {username: emailAddress, password: password})
+  if(response.status === 204) {
+    return [];
+  } else {
+    throw new Error();
+  }
+}
+
+//6. GET to User
+
+async getUsers(emailAddress, password) {
+  const response = await this.api("/users", "GET", true, {username: emailAddress, password: password});
+  if(response.status === 200) {
+    return response.json().then(data => data)
+  } else {
+    throw new Error();
+  }
+}
+
+//7. POST to User
+
+async createUser(user) {
+  const response = await this.api("/users", "POST", user);
+  if(response.status === 201){
+    return [];
+  } else {
+    throw new Error();
+  }
+}
+
 }

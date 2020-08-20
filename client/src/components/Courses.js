@@ -17,13 +17,6 @@ export default class Courses extends Component {
 
   async componentDidMount() {
     await this.state.dataObj.getCourses().then(response => this.setState({courses: response}))
-
-
-   /*await axios.get('http://localhost:5000/api/courses')
-      .then(response => this.setState({
-          courses: response.data
-      }))
-      */
     }
 
   render() {
