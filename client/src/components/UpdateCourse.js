@@ -5,6 +5,7 @@ export default class UpdateCourse extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      id: this.props.match.params.id,
       title: this.props.title,
       description: this.props.description,
       estimatedTime: this.props.estimatedTime,
