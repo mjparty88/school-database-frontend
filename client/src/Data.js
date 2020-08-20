@@ -1,3 +1,5 @@
+import {Redirect} from 'react-router-dom'
+
 export default class Data {
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     const url = "http://localhost:5000/api" + path; //replace path with appropriate baseURLI
@@ -45,6 +47,27 @@ async getCourses() {
   const response = await this.api("/courses", "GET", null, null);
   if(response.status === 200) {
     return response.json().then(data => data) //respond with the data
+  } else {
+    throw new Error();
+  }
+}
+
+//2. POST to Courses
+async postCourses() {
+  const response = await this.api("/courses", "POST", true, {username:"", password: "" })
+  if(response.status === 201) {
+    return response.json().then(data => data)
+  } else {
+    throw new Error();
+  }
+}
+
+  //3. GET to Courses/:id
+
+async getCourse(id) {
+  const response = await this.api(`/courses/${id}`, "GET", null, null);
+  if(response.status === 200) {
+    return response.json().then(data => data)
   } else {
     throw new Error();
   }

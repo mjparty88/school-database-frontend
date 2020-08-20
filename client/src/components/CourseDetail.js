@@ -1,11 +1,23 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
+import Data from '../Data'
 
 export default class CourseDetail extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      course: {},
+      courseOwner: {},
+      dataObj: new Data()
+    }
+  }
+
+  async componentDidMount() {
+    await this.state.dataObj.getCourse(this.props.match.params.id).then(response => this.setState({
+      course: response,
+      courseOwner: response.user
+    }))
   }
 
   render() {
@@ -26,15 +38,11 @@ export default class CourseDetail extends Component {
           <div className="grid-66">
             <div className="course--header">
               <h4 className="course--label">Course</h4>
-              <h3 className="course--title">The Name of the Course</h3>
-              <p>By Joe Smith</p>
+              <h3 className="course--title">{this.state.course.title}</h3>
+              <p>by {this.state.courseOwner.firstName} {this.state.courseOwner.lastName}</p>
             </div>
             <div className="course--description">
-              <p>Paragraph 1</p>
-              <p>Paragraph 2</p>
-              <p>Paragraph 3</p>
-              <p>Paragraph 4</p>
-              <p>Paragraph 5</p>
+              <p>{this.state.course.description}</p>
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -42,15 +50,12 @@ export default class CourseDetail extends Component {
               <ul className="course--stats--list">
                 <li className="course--stats--list--item">
                   <h4>Estimated Time</h4>
-                  <h3>14 hours</h3>
+                  <h3>{this.state.course.estimatedTime}</h3>
                 </li>
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
+                    <li>{this.state.course.materialsNeeded}</li>
                   </ul>
                 </li>
               </ul>
