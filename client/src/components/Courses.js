@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import CourseCard from './CourseCard'
 import AddNewCourseCard from './AddNewCourseCard'
 import axios from 'axios'
+import Data from '../Data'
 
 
 export default class Courses extends Component {
@@ -9,15 +10,20 @@ export default class Courses extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      courses: []
+      courses: [],
+      dataObj: new Data()
     }
   }
 
   async componentDidMount() {
-   await axios.get('http://localhost:5000/api/courses')
+    await this.state.dataObj.getCourses().then(response => this.setState({courses: response}))
+
+
+   /*await axios.get('http://localhost:5000/api/courses')
       .then(response => this.setState({
           courses: response.data
       }))
+      */
     }
 
   render() {
