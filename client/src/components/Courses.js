@@ -9,13 +9,12 @@ export default class Courses extends Component {
     super(props)
     this.state = {
       courses: [],
-  //    dataObj: new Data()
     }
   }
 
   async componentDidMount() {
-  //  await this.state.dataObj.getCourses().then(response => this.setState({courses: response}))
-    }
+   await this.props.context.data.getCourses().then(response => this.setState({courses: response}))
+  }
 
   render() {
     return (
