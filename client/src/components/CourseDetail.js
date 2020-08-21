@@ -8,15 +8,14 @@ export default class CourseDetail extends Component {
     this.state = {
       course: {},
       courseOwner: {},
-    //  dataObj: new Data()
     }
   }
 
   async componentDidMount() {
-  //  await this.state.dataObj.getCourse(this.props.match.params.id).then(response => this.setState({
-  //    course: response,
-  //    courseOwner: response.user
-  //  }))
+  await this.props.context.data.getCourse(this.props.match.params.id).then(response => this.setState({
+      course: response,
+      courseOwner: response.user
+    }))
   }
 
   render() {
