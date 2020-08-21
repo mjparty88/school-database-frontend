@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import Data from '../Data'
 
 export default class CourseDetail extends Component {
 
@@ -9,15 +8,15 @@ export default class CourseDetail extends Component {
     this.state = {
       course: {},
       courseOwner: {},
-      dataObj: new Data()
+    //  dataObj: new Data()
     }
   }
 
   async componentDidMount() {
-    await this.state.dataObj.getCourse(this.props.match.params.id).then(response => this.setState({
-      course: response,
-      courseOwner: response.user
-    }))
+  //  await this.state.dataObj.getCourse(this.props.match.params.id).then(response => this.setState({
+  //    course: response,
+  //    courseOwner: response.user
+  //  }))
   }
 
   render() {

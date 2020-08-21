@@ -2,45 +2,18 @@ import React, { Component } from 'react';
 import Cookies from 'js-cookie';
 import Data from './Data';
 
-//create some context
 const Context = React.createContext();
-
-//create a provider
 
 export class Provider extends Component {
 
   state = {
-      authenticatedUser: Cookies.getJSON('authenticatedUser') || null
-  }
-
-  //signs the user in
-  signIn = async (username, password) => {
-    const user = await this.data.getUser(username, password);
-    if (user !== null) {
-      this.setState(() => {
-        return {
-          authenticatedUser: user,
-        };
-      });
-      const cookieOptions = {
-        expires: 1 // 1 day
-      };
-      Cookies.set('authenticatedUser', JSON.stringify(user), {cookieOptions});
-    }
-    return user;
-  }
-
-  //signs the user out
-  signOut = () => {
-    this.setState({ authenticatedUser: null });
-    Cookies.remove('authenticatedUser');
-  }
+    authenticatedUser: Cookies.getJSON('authenticatedUser') || null
+  };
 
   constructor() {
     super();
-    this.data = new Data(); //makes the Data object available through context
+    this.data = new Data();
   }
-  //HOC timeout
 
   render() {
     const { authenticatedUser } = this.state;
@@ -58,9 +31,29 @@ export class Provider extends Component {
       </Context.Provider>
     );
   }
-}
 
-//create a consumer
+
+  signIn = async (username, password) => {
+    const user = await this.data.getUser(username, password);
+    if (user !== null) {
+      this.setState(() => {
+        return {
+          authenticatedUser: user,
+        };
+      });
+      const cookieOptions = {
+        expires: 1 // 1 day
+      };
+      Cookies.set('authenticatedUser', JSON.stringify(user), {cookieOptions});
+    }
+    return user;
+  }
+
+  signOut = () => {
+    this.setState({ authenticatedUser: null });
+    Cookies.remove('authenticatedUser');
+  }
+}
 
 export const Consumer = Context.Consumer;
 

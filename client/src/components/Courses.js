@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import CourseCard from './CourseCard'
 import AddNewCourseCard from './AddNewCourseCard'
-import axios from 'axios'
-import Data from '../Data'
 
 
 export default class Courses extends Component {
@@ -11,12 +9,12 @@ export default class Courses extends Component {
     super(props)
     this.state = {
       courses: [],
-      dataObj: new Data()
+  //    dataObj: new Data()
     }
   }
 
   async componentDidMount() {
-    await this.state.dataObj.getCourses().then(response => this.setState({courses: response}))
+  //  await this.state.dataObj.getCourses().then(response => this.setState({courses: response}))
     }
 
   render() {

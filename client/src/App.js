@@ -5,6 +5,7 @@ import {
   Switch
 } from 'react-router-dom';
 import withContext from './Context';
+import PrivateRoute from './PrivateRoute';
 import Header from './components/Header';
 import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
@@ -15,7 +16,7 @@ import CreateCourse from './components/CreateCourse'
 import UpdateCourse from './components/UpdateCourse'
 
 //turn all components into subscribers
-const HeaderWithContext = withContext(Header)
+const HeaderWithContext = withContext(Header);
 const CoursesWithContext = withContext(Courses);
 const CreateCourseWithContext = withContext(CreateCourse);
 const UpdateCourseWithContext = withContext(UpdateCourse);
@@ -33,11 +34,11 @@ export default function App() {
       <HeaderWithContext />
         <Switch>
           <Route exact path="/" component={CoursesWithContext} />
-          <Route path="/courses/create" component={CreateCourseWithContext}/>
-          <Route path="/courses/:id/update" component={UpdateCourseWithContext}/>
-          <Route path="/courses/:id" component={CourseDetailWithContext} />
-          <Route path="/signup" component={UserSignUpWithContext} />
-          <Route path="/signin" component={UserSignInWithContext}/>
+          <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext}/>
+          <PrivateRoute exact path="/courses/:id/update" component={UpdateCourseWithContext}/>
+          <Route exact path="/courses/:id" component={CourseDetailWithContext} />
+          <Route exact path="/signup" component={UserSignUpWithContext} />
+          <Route exact path="/signin" component={UserSignInWithContext}/>
           <Route component={ErrorPageWithContext}/>
         </Switch>
       </div>

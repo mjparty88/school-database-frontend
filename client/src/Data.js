@@ -1,5 +1,3 @@
-import {Redirect} from 'react-router-dom'
-
 export default class Data {
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     const url = "http://localhost:5000/api" + path; //replace path with appropriate baseURLI
@@ -22,7 +20,7 @@ export default class Data {
     return fetch(url, options);
   }
 
-/* 
+/*
 Summary of calls required (7)
 - GET to COURSES
 - POST to COURSES
@@ -91,7 +89,7 @@ async deleteCourse(course, emailAddress, password) {
 
 //6. GET to User
 
-async getUsers(emailAddress, password) {
+async getUser(emailAddress, password) {
   const response = await this.api("/users", "GET", true, {username: emailAddress, password: password});
   if(response.status === 200) {
     return response.json().then(data => data)
