@@ -24,6 +24,17 @@ export default class UserSignIn extends Component {
     })
   }
 
+  handleCancel(e) {
+    e.preventDefault();
+    this.props.history.push('/');
+  }
+
+  handleSignIn(e){
+    e.preventDefault();
+    this.props.context.actions.signIn(this.state.emailAddress,this.state.password);
+    this.props.history.push('/');
+  }
+
   render() {
     return (
       <div className="bounds">
@@ -38,8 +49,8 @@ export default class UserSignIn extends Component {
                 <input id="password" name="password" type="password" onChange={this.handlePasswordChange.bind(this)} className placeholder="Password"/>
               </div>
               <div>
-                <button className="button" type="submit">Sign In</button>
-                <button className="button button-secondary" onClick="event.preventDefault(); location.href='index.html'">Cancel</button>
+                <button className="button" type="submit" onClick={this.handleSignIn.bind(this)}>Sign In</button>
+                <button className="button button-secondary" onClick={this.handleCancel.bind(this)}>Cancel</button>
               </div>
             </form>
           </div>

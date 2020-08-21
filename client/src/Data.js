@@ -90,7 +90,7 @@ async deleteCourse(course, emailAddress, password) {
 //6. GET to User
 
 async getUser(emailAddress, password) {
-  const response = await this.api("/users", "GET", true, {username: emailAddress, password: password});
+  const response = await this.api("/users", "GET", null, true, {username: emailAddress, password: password});
   if(response.status === 200) {
     return response.json().then(data => data)
   } else {
