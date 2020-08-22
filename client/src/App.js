@@ -15,6 +15,7 @@ import CreateCourse from './components/CreateCourse'
 import UpdateCourse from './components/UpdateCourse'
 import Forbidden from './components/Forbidden'
 import NotFound from './components/NotFound'
+import UnhandledError from './components/UnhandledError'
 
 //turn all components into subscribers
 const HeaderWithContext = withContext(Header);
@@ -26,6 +27,7 @@ const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const ForbiddenWithContext = withContext(Forbidden);
 const NotFoundWithContext = withContext(NotFound);
+const UnhandledError = withContext(UnhandledError)
 
 
 
@@ -44,6 +46,7 @@ export default function App() {
           <Route exact path="/signin" component={UserSignInWithContext}/>
           <Route exact path ="/forbidden" component={ForbiddenWithContext}/>
           <Route exact path ="/notfound" component={NotFoundWithContext}/>
+          <Route exact path ="/error" component={UnhandledError}/>
           <Route component={NotFoundWithContext}/>
         </Switch>
       </div>
