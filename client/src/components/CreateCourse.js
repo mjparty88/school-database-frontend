@@ -64,11 +64,17 @@ export default class CreateCourse extends Component {
   }
 
   render() {
+
+    let validationErrors;
+    if(this.state.errors) {
+      validationErrors = <ValidationErrors errors={this.state.errors.errors}/>
+    }
+
     return (
         <div className="bounds course-detail">
           <h1>Create Course</h1>
           <div>
-            {this.state.errors ? (<ValidationErrors errors={this.state.errors.errors}/>) : (null)}
+            {validationErrors}
             <form>
               <div className="grid-66">
                 <div className="course--header">

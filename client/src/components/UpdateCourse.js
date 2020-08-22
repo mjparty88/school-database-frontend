@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Redirect} from 'react-router-dom'
+import ValidationErrors from './ValidationErrors'
 
 export default class UpdateCourse extends Component {
 
@@ -7,12 +8,13 @@ export default class UpdateCourse extends Component {
     super(props)
     this.state = {
       id: this.props.match.params.id,
-      title: null,
-      description: null,
-      estimatedTime: null,
-      materialsNeeded: null,
+      title: '',
+      description: '',
+      estimatedTime: '',
+      materialsNeeded: '',
       courseOwner: {},
-      error: null
+      error: null,
+      validationErrors: null
     }
   }
 
@@ -73,11 +75,36 @@ export default class UpdateCourse extends Component {
     this.props.history.push('/');
   }
 
+  async handleUpdate(e) {
+    e.preventDefault();
+    const courseDetails = {
+      id: this.state.id,
+      title: this.state.title,
+      description: this.state.description,
+      estimatedTime: this.state.estimatedTime,
+      materialsNeeded: this.state.materialsNeeded,
+      userId: this.state.courseOwner.id
+    }
+    let response = await this.props.context.data.updateCourse(courseDetails, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
+    console.log(response)
+    if(response) {
+      this.setState({
+        validationErrors: response,
+      })
+    } else {
+      this.props.history.push(`/courses/${this.props.match.params.id}`)
+    }
+  }
+
 
   render() {
     let content;
     if(this.state.error) {
       content = <Redirect to="/forbidden"/>
+    }
+    let validationErrors;
+    if(this.state.validationErrors) {
+      validationErrors = <ValidationErrors errors={this.state.validationErrors.errors}/>
     }
 
     return (
@@ -86,6 +113,7 @@ export default class UpdateCourse extends Component {
       {content}
         <h1>Update Course</h1>
         <div>
+          {validationErrors}
           <form>
             <div className="grid-66">
               <div className="course--header">
@@ -97,7 +125,7 @@ export default class UpdateCourse extends Component {
               </div>
               <div className="course--description">
                 <div>
-                  <textarea id="description" name="descirption" className onChange={this.handleDescChange.bind(this)} placeholder="Course description..." defaultValue={this.state.description}></textarea>
+                  <textarea id="description" name="descirption" onChange={this.handleDescChange.bind(this)} placeholder="Course description..." value={this.state.description}></textarea>
                 </div>
               </div>
             </div>
@@ -107,20 +135,20 @@ export default class UpdateCourse extends Component {
                   <li className="course--stats--list--item">
                     <h4>Estimated Time</h4>
                     <div>
-                      <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" onChange={this.handleEstTimeChange.bind(this)} placeholder="Hours" value={this.state.estimatedTime}></input>
+                      <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" onChange={this.handleEstTimeChange.bind(this)} placeholder="Hours" value={this.state.estimatedTime  || ''}></input>
                     </div>
                   </li>
                   <li className="course--stats--list--item">
                     <h4>Materials Needed</h4>
                     <div>
-                      <textarea id="materialsNeeded" name="materialsNeeded" className onChange={this.handleMaterialsChange.bind(this)} placeholder="Materials needed for the course" defaultValue={this.state.materialsNeeded}></textarea>
+                      <textarea id="materialsNeeded" name="materialsNeeded" onChange={this.handleMaterialsChange.bind(this)} placeholder="Materials needed for the course" value={this.state.materialsNeeded  || ''}></textarea>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
             <div className="grid-100 pad-bottom">
-              <button className="button" type="submit">Update Course</button>
+              <button className="button" type="submit" onClick={this.handleUpdate.bind(this)}>Update Course</button>
               <button className="button button-secondary" onClick={this.handleCancel.bind(this)}>Cancel</button>
             </div>
           </form>

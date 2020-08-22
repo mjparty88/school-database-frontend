@@ -49,7 +49,7 @@ async postCourses(course, emailAddress, password) {
   if(response.status === 201) {
     return null;
   } else {
-    return response.json().then(data => data)
+    return response.json().then(data => data) //returned payload with the errors provided by the  API
   }
 }
 
@@ -72,9 +72,9 @@ async getCourse(id) {
 async updateCourse(course, emailAddress, password) {
   const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {username: emailAddress, password: password})
   if(response.status === 204) {
-    return [];
+    return null;
   } else {
-    throw new Error();
+    return response.json().then(data => data) //.json().then(data => data) //returned payload with the errors provided by the  API
   }
 }
 
