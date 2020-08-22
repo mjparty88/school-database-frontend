@@ -36,8 +36,7 @@ export class Provider extends Component {
   signIn = async (username, password) => {
     const user = await this.data.getUser(username, password);
     if (user !== null) {
-      console.log(user[0]);
-      console.log(JSON.stringify(user[0]))
+      user[0].password = password //add the user password into state as its not returned by the API
       this.setState(() => {
         return {
           authenticatedUser: user[0],

@@ -43,12 +43,28 @@ export default class CreateCourse extends Component {
     this.props.history.push('/');
   }
 
+  async handleCreate(e) {
+    e.preventDefault();
+    const courseInfo = {
+      title: this.state.title,
+      description: this.state.description,
+      estimatedTIme: this.state.description,
+      materialsNeeded: this.state.Description,
+      userId: this.props.context.authenticatedUser.id
+    }
+    console.log(`Attempting to post couse with creds ----  users: ${this.props.context.authenticatedUser.emailAddress}, password:${this.props.context.authenticatedUser.password}`)
+    const response = await this.props.context.data.postCourses(courseInfo, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
+    this.setState({
+      errors: response,
+    })
+  }
+
   render() {
     return (
         <div className="bounds course-detail">
           <h1>Create Course</h1>
           <div>
-            {this.state.errors ? (<ValidationErrors errors={this.state.errors}/>) : (null)}
+            {this.state.errors ? (<ValidationErrors errors={this.state.errors.errors}/>) : (null)}
             <form>
               <div className="grid-66">
                 <div className="course--header">
@@ -83,7 +99,7 @@ export default class CreateCourse extends Component {
                 </div>
               </div>
               <div className="grid-100 pad=bottom">
-                <button className="button" type="submit">Create Course</button>
+                <button className="button" type="submit" onClick={this.handleCreate.bind(this)}>Create Course</button>
                 <button className="button button-secondary" onClick={this.handleCancel.bind(this)}>Cancel</button>
               </div>
             </form>

@@ -31,7 +31,7 @@ Summary of calls required (7)
 - POST to USERS
 */
 
-// 1. GET to COURSES
+// 1. GET to COURSES (works on the index route)
 //doesn't require any authentication
 
 async getCourses() {
@@ -44,12 +44,12 @@ async getCourses() {
 }
 
 //2. POST to Courses
-async postCourses(emailAddress, password) {
-  const response = await this.api("/courses", "POST", true, {username: emailAddress, password: password})
+async postCourses(course, emailAddress, password) {
+  const response = await this.api("/courses", "POST", course, true, {username: emailAddress, password: password})
   if(response.status === 201) {
-    return response.json().then(data => data)
+    return null;
   } else {
-    throw new Error();
+    return response.json().then(data => data)
   }
 }
 

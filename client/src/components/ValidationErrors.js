@@ -9,8 +9,7 @@ export default function ValidationErrors(props) {
           {props.errors.map(
             error => { return(
             <Fragment>
-              <li>{error.title}</li> //Please provide a value for "Title"
-              <li>{error.message}</li> //Please provide a value for "Description"
+              <li>{error}</li>
             </Fragment>
           )})}
         </ul>
