@@ -6,8 +6,41 @@ export default class CreateCourse extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      title: null,
+      description: null,
+      estimatedTime: null,
+      materialsNeeded: null,
       errors: null
     }
+  }
+
+  handleTitleChange(e) {
+    this.setState({
+      title: e.target.value
+    })
+  }
+
+  handleDescChange(e) {
+    this.setState({
+      description: e.target.value
+    })
+  }
+
+  handleEstTimeChange(e) {
+    this.setState({
+      estimatedTime: e.target.value
+    })
+  }
+
+  handleMaterialsChange(e) {
+    this.setState({
+      materialsNeeded: e.target.value
+    })
+  }
+
+  handleCancel(e) {
+    e.preventDefault();
+    this.props.history.push('/');
   }
 
   render() {
@@ -21,13 +54,13 @@ export default class CreateCourse extends Component {
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
                   <div>
-                    <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."></input>
+                    <input id="title" name="title" type="text" className="input-title course--title--input" onChange={this.handleTitleChange.bind(this)} placeholder="Course title..."></input>
                   </div>
-                  <p>By The Logged In User</p>
+                  <p>by {this.props.context.authenticatedUser.firstName} {this.props.context.authenticatedUser.lastName}</p>
                 </div>
                 <div className="course--description">
                   <div>
-                    <textarea id="description" name="description" className placeholder="Course description..."></textarea>
+                    <textarea id="description" name="description" onChange={this.handleDescChange.bind(this)} placeholder="Course description..."></textarea>
                   </div>
                 </div>
               </div>
@@ -37,13 +70,13 @@ export default class CreateCourse extends Component {
                     <li className="course--stats--list--items">
                       <h4>Estimated Time</h4>
                       <div>
-                        <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours"></input>
+                        <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" onChange={this.handleEstTimeChange.bind(this)} placeholder="Hours"></input>
                       </div>
                     </li>
                     <li className="course--stats--list--items">
                       <h4>Materials Needed</h4>
                       <div>
-                        <textarea id="materialsNeeded" name="materialsNeeded" className placeholder="List materials..."></textarea>
+                        <textarea id="materialsNeeded" name="materialsNeeded" onChange={this.handleMaterialsChange.bind(this)} placeholder="List materials..."></textarea>
                       </div>
                     </li>
                   </ul>
@@ -51,7 +84,7 @@ export default class CreateCourse extends Component {
               </div>
               <div className="grid-100 pad=bottom">
                 <button className="button" type="submit">Create Course</button>
-                <button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html'">Cancel</button>
+                <button className="button button-secondary" onClick={this.handleCancel.bind(this)}>Cancel</button>
               </div>
             </form>
           </div>

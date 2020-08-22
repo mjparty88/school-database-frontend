@@ -37,6 +37,11 @@ export default class UpdateCourse extends Component {
     })
   }
 
+  handleCancel(e) {
+    e.preventDefault();
+    this.props.history.push('/');
+  }
+
   render(){
     return(
       <div className="bounds course--details">
@@ -77,7 +82,7 @@ export default class UpdateCourse extends Component {
             </div>
             <div className="grid-100 pad-bottom">
               <button className="button" type="submit">Update Course</button>
-              <button className="button button-secondary" onClick="event.preventDefault(); location.href='course-detail'">Cancel</button>
+              <button className="button button-secondary" onClick={this.handleCancel.bind(this)}>Cancel</button>
             </div>
           </form>
         </div>
