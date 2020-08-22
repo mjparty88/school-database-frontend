@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import EditCourseButtons from './EditCourseButtons'
 import {Link} from 'react-router-dom'
 
 export default class CourseDetail extends Component {
@@ -24,10 +25,7 @@ export default class CourseDetail extends Component {
         <div className="actions--bar">
           <div className="bounds">
             <div className="grid-100">
-              <span>
-                <Link className="button" to={`/courses/${this.props.match.params.id}/update`}> Update Course </Link>
-                <Link className="button" to="/"> Delete Course </Link>
-              </span>
+              {this.state.courseOwner.id === this.props.context.authenticatedUser.id ? (<EditCourseButtons id={this.state.course.id} /> ): (null)}
               <Link className="button button-secondary" to="/">Return to List</Link>
             </div>
           </div>
