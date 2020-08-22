@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Redirect} from 'react-router-dom'
 
 export default class UpdateCourse extends Component {
 
@@ -6,10 +7,40 @@ export default class UpdateCourse extends Component {
     super(props)
     this.state = {
       id: this.props.match.params.id,
-      title: this.props.title,
-      description: this.props.description,
-      estimatedTime: this.props.estimatedTime,
-      materialsNeeded: this.props.materialsNeeded,
+      title: null,
+      description: null,
+      estimatedTime: null,
+      materialsNeeded: null,
+      courseOwner: {},
+      error: null
+    }
+  }
+
+  async componentDidMount() {
+    const response = await this.props.context.data.getCourse(this.props.match.params.id)
+    if(response === 404) {
+      this.setState({
+        error: {
+          errName : "404 - Not Found",
+          errDesc: "There is not course with this id"
+        }
+      })
+    } else {
+      this.setState({
+        id: response.id,
+        title: response.title,
+        description: response.description,
+        estimatedTime: response.estimatedTime,
+        materialsNeeded: response.materialsNeeded,
+        courseOwner: response.user
+      })
+    }
+    if(this.state.courseOwner.id !== this.props.context.authenticatedUser.id) {
+      this.setState({
+        error: {
+          errName : "403 - Forbidden",
+          errDesc: "This course doesn't belong to you, you cannot edit it"
+      }})
     }
   }
 
@@ -42,9 +73,17 @@ export default class UpdateCourse extends Component {
     this.props.history.push('/');
   }
 
-  render(){
-    return(
+
+  render() {
+    let content;
+    if(this.state.error) {
+      content = <Redirect to="/forbidden"/>
+    }
+
+    return (
+
       <div className="bounds course--details">
+      {content}
         <h1>Update Course</h1>
         <div>
           <form>
@@ -54,11 +93,11 @@ export default class UpdateCourse extends Component {
                 <div>
                   <input id="title" name="title" type="text" className="input-title course--title--input" onChange={this.handleTitleChange.bind(this)} placeholder="Course title..." value={this.state.title}></input>
                 </div>
-                <p>By {this.props.context.authenticatedUser.firstName} {this.props.context.authenticatedUser.lastName}</p>
+                <p>By {this.state.courseOwner.firstName} {this.state.courseOwner.lastName}</p>
               </div>
               <div className="course--description">
                 <div>
-                  <textarea id="description" name="descirption" className onChange={this.handleDescChange.bind(this)} placeholder="Course description...">{this.state.description}</textarea>
+                  <textarea id="description" name="descirption" className onChange={this.handleDescChange.bind(this)} placeholder="Course description..." defaultValue={this.state.description}></textarea>
                 </div>
               </div>
             </div>
@@ -74,7 +113,7 @@ export default class UpdateCourse extends Component {
                   <li className="course--stats--list--item">
                     <h4>Materials Needed</h4>
                     <div>
-                      <textarea id="materialsNeeded" name="materialsNeeded" className onChange={this.handleMaterialsChange.bind(this)} placeholder="Materials needed for the course">{this.state.materialsNeeded}</textarea>
+                      <textarea id="materialsNeeded" name="materialsNeeded" className onChange={this.handleMaterialsChange.bind(this)} placeholder="Materials needed for the course" defaultValue={this.state.materialsNeeded}></textarea>
                     </div>
                   </li>
                 </ul>

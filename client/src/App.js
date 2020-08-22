@@ -9,11 +9,12 @@ import PrivateRoute from './PrivateRoute';
 import Header from './components/Header';
 import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
-import ErrorPage from './components/ErrorPage'
 import UserSignIn from './components/UserSignIn'
 import UserSignUp from './components/UserSignUp'
 import CreateCourse from './components/CreateCourse'
 import UpdateCourse from './components/UpdateCourse'
+import Forbidden from './components/Forbidden'
+import NotFound from './components/NotFound'
 
 //turn all components into subscribers
 const HeaderWithContext = withContext(Header);
@@ -23,7 +24,9 @@ const UpdateCourseWithContext = withContext(UpdateCourse);
 const CourseDetailWithContext = withContext(CourseDetail);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
-const ErrorPageWithContext = withContext(ErrorPage);
+const ForbiddenWithContext = withContext(Forbidden);
+const NotFoundWithContext = withContext(NotFound);
+
 
 
 export default function App() {
@@ -39,7 +42,9 @@ export default function App() {
           <Route exact path="/courses/:id" component={CourseDetailWithContext} />
           <Route exact path="/signup" component={UserSignUpWithContext} />
           <Route exact path="/signin" component={UserSignInWithContext}/>
-          <Route component={ErrorPageWithContext}/>
+          <Route exact path ="/forbidden" component={ForbiddenWithContext}/>
+          <Route exact path ="/notfound" component={NotFoundWithContext}/>
+          <Route component={NotFoundWithContext}/>
         </Switch>
       </div>
     </Router>

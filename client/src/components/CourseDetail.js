@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import EditCourseButtons from './EditCourseButtons'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import CourseInformationForm from './CourseInformationForm'
-import ErrorPage from './ErrorPage'
 
 export default class CourseDetail extends Component {
 
@@ -33,10 +32,13 @@ export default class CourseDetail extends Component {
 }
 
   render() {
-
+    let content;
+    if(this.state.error) {
+      content = <Redirect to="/notfound"/>
+    }
     return (
-
         <div>
+        {content}
           <div className="actions--bar">
             <div className="bounds">
               <div className="grid-100">
@@ -45,7 +47,7 @@ export default class CourseDetail extends Component {
               </div>
             </div>
           </div>
-          {this.state.error ? <ErrorPage errors={this.state.error}/> : <CourseInformationForm courseData={this.state.course} ownerData={this.state.courseOwner}/>}
+          <CourseInformationForm courseData={this.state.course} ownerData={this.state.courseOwner}/>
         </div>
     )
   }
