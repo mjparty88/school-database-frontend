@@ -1,10 +1,13 @@
 import React, {Component} from 'react'
+import ValidationErrors from './ValidationErrors'
 
 export default class CreateCourse extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      errors: null
+    }
   }
 
   render() {
@@ -12,15 +15,7 @@ export default class CreateCourse extends Component {
         <div className="bounds course-detail">
           <h1>Create Course</h1>
           <div>
-            <div>
-              <h2 className="validation--errors--label">Validation errors</h2>
-              <div className="validation-errors">
-                <ul>
-                  <li>Please provide a value for "Title"</li>
-                  <li>Please provide a value for "Description"</li>
-                </ul>
-              </div>
-            </div>
+            {this.state.errors ? (<ValidationErrors errors={this.state.errors}/>) : (null)}
             <form>
               <div className="grid-66">
                 <div className="course--header">
