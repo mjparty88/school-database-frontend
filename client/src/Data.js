@@ -68,7 +68,7 @@ async getCourse(id) {
 //4. PUT to Courses/:id
 
 async updateCourse(course, emailAddress, password) {
-  const response = await this.api(`/course/${course.id}`, 'PUT', course, true, {username: emailAddress, password: password})
+  const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {username: emailAddress, password: password})
   if(response.status === 204) {
     return [];
   } else {
@@ -79,7 +79,8 @@ async updateCourse(course, emailAddress, password) {
 //5. DELETE to Courses/:id
 
 async deleteCourse(course, emailAddress, password) {
-  const response = await this.api(`/course/${course.id}`, 'DELETE', course, true, {username: emailAddress, password: password})
+  const response = await this.api(`/courses/${course.id}`, 'DELETE', course, true, {username: emailAddress, password: password})
+  console.log(response)
   if(response.status === 204) {
     return [];
   } else {

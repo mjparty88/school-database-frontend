@@ -25,7 +25,7 @@ export default class CourseDetail extends Component {
         <div className="actions--bar">
           <div className="bounds">
             <div className="grid-100">
-              {this.state.courseOwner.id === this.props.context.authenticatedUser.id ? (<EditCourseButtons id={this.state.course.id} /> ): (null)}
+              {this.state.courseOwner.id === this.props.context.authenticatedUser.id ? (<EditCourseButtons course={this.state.course} context={this.props.context}/> ): (null)}
               <Link className="button button-secondary" to="/">Return to List</Link>
             </div>
           </div>
