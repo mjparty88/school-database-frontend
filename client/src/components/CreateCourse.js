@@ -52,11 +52,15 @@ export default class CreateCourse extends Component {
       materialsNeeded: this.state.Description,
       userId: this.props.context.authenticatedUser.id
     }
-    console.log(`Attempting to post couse with creds ----  users: ${this.props.context.authenticatedUser.emailAddress}, password:${this.props.context.authenticatedUser.password}`)
     const response = await this.props.context.data.postCourses(courseInfo, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
-    this.setState({
-      errors: response,
-    })
+    if(response) {
+      this.setState({
+        errors: response,
+      })
+    } else {
+      this.props.history.push('/')
+    }
+
   }
 
   render() {
