@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
+import ValidationErrors from './ValidationErrors'
 
 export default class UserSignUp extends Component {
 
@@ -10,7 +11,8 @@ export default class UserSignUp extends Component {
       lastName: null,
       emailAddress: null,
       password: null,
-      confirmPassword: null
+      confirmPassword: null,
+      validationErrors: null
     }
   }
 
@@ -46,13 +48,52 @@ export default class UserSignUp extends Component {
     })
   }
 
+  handleCancel(e) {
+    e.preventDefault();
+    this.props.history.push('/');
+  }
+
+  async handleCreateUser(e) {
+    e.preventDefault();
+    if(this.state.password === this.state.confirmPassword){
+      //password validation matches
+      const user = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        emailAddress: this.state.emailAddress,
+        password: this.state.password
+      }
+    const response = await this.props.context.data.createUser(user)
+    if(response){
+      //validationErrors were found
+      this.setState({
+        validationErrors: response,
+      })
+    } else {
+      //success - sign in the user and go to the route
+      this.props.context.actions.signIn(this.state.emailAddress, this.state.password)
+      this.props.history.goBack();
+    }
+  } else {
+    //password validation failed
+    this.setState({
+      validationErrors: {errors: ["Password and Confirm Password Must Match"]}
+    })
+  }
+
+  }
+
 
   render() {
-
+    let validationErrors
+    if(this.state.validationErrors) {
+      validationErrors = <ValidationErrors errors={this.state.validationErrors.errors}/>
+    }
     return(
       <div className="bounds">
         <div className="grid-33 centered signin">
           <h1>Sign Up</h1>
+          {validationErrors}
           <div>
             <form>
               <div>
@@ -71,8 +112,8 @@ export default class UserSignUp extends Component {
                 <input id="confirmPassword" name="confirmPassword" type="password" onChange={this.handleConfirmPasswordChange.bind(this)} className placeholder="Confirm Password"></input>
               </div>
               <div className="grid-100 pad-bottom">
-                <button className="button" type="submit">Sign Up</button>
-                <button className="button button-secondary" onclick="event.preventDefault(); location.href='index'">Cancel</button>
+                <button className="button" type="submit" onClick={this.handleCreateUser.bind(this)}>Sign Up</button>
+                <button className="button button-secondary" onVlick={this.handleCancel}>Cancel</button>
               </div>
             </form>
           </div>

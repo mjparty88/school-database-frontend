@@ -27,7 +27,7 @@ const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const ForbiddenWithContext = withContext(Forbidden);
 const NotFoundWithContext = withContext(NotFound);
-const UnhandledError = withContext(UnhandledError)
+const UnhandledErrorWithContext = withContext(UnhandledError)
 
 
 
@@ -46,7 +46,7 @@ export default function App() {
           <Route exact path="/signin" component={UserSignInWithContext}/>
           <Route exact path ="/forbidden" component={ForbiddenWithContext}/>
           <Route exact path ="/notfound" component={NotFoundWithContext}/>
-          <Route exact path ="/error" component={UnhandledError}/>
+          <Route exact path ="/error" component={UnhandledErrorWithContext}/>
           <Route component={NotFoundWithContext}/>
         </Switch>
       </div>

@@ -36,13 +36,19 @@ export default class CourseDetail extends Component {
     if(this.state.error) {
       content = <Redirect to="/notfound"/>
     }
+    let editButtons
+    if(this.props.context.authenticatedUser) {
+      if(this.state.courseOwner.id === this.props.context.authenticatedUser.id){
+        editButtons = <EditCourseButtons course={this.state.course} context={this.props.context}/>
+      }
+    }
     return (
         <div>
         {content}
           <div className="actions--bar">
             <div className="bounds">
               <div className="grid-100">
-                {this.state.courseOwner.id === this.props.context.authenticatedUser.id ? (<EditCourseButtons course={this.state.course} context={this.props.context}/> ): (null)}
+                {editButtons}
                 <Link className="button button-secondary" to="/">Return to List</Link>
               </div>
             </div>

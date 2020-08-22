@@ -32,7 +32,7 @@ export default class UserSignIn extends Component {
   handleSignIn(e){
     e.preventDefault();
     this.props.context.actions.signIn(this.state.emailAddress,this.state.password);
-    this.props.history.push('/');
+    this.props.history.goBack();
   }
 
   render() {

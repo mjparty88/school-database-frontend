@@ -106,9 +106,9 @@ async getUser(emailAddress, password) {
 async createUser(user) {
   const response = await this.api("/users", "POST", user);
   if(response.status === 201){
-    return [];
+    return null;
   } else {
-    throw new Error();
+    return response.json().then(data => data)
   }
 }
 
