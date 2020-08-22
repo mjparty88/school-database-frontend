@@ -54,7 +54,7 @@ export default class UpdateCourse extends Component {
                 <div>
                   <input id="title" name="title" type="text" className="input-title course--title--input" onChange={this.handleTitleChange.bind(this)} placeholder="Course title..." value={this.state.title}></input>
                 </div>
-                <p>By the Logged in User</p>
+                <p>By {this.props.context.authenticatedUser.firstName} {this.props.context.authenticatedUser.lastName}</p>
               </div>
               <div className="course--description">
                 <div>

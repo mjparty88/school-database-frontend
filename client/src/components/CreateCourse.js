@@ -56,7 +56,7 @@ export default class CreateCourse extends Component {
                   <div>
                     <input id="title" name="title" type="text" className="input-title course--title--input" onChange={this.handleTitleChange.bind(this)} placeholder="Course title..."></input>
                   </div>
-                  <p>by {this.props.context.authenticatedUser.firstName} {this.props.context.authenticatedUser.lastName}</p>
+                  <p>By {this.props.context.authenticatedUser.firstName} {this.props.context.authenticatedUser.lastName}</p>
                 </div>
                 <div className="course--description">
                   <div>
