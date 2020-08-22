@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import EditCourseButtons from './EditCourseButtons'
 import {Link} from 'react-router-dom'
+import CourseInformationForm from './CourseInformationForm'
+import ErrorPage from './ErrorPage'
 
 export default class CourseDetail extends Component {
 
@@ -8,57 +10,43 @@ export default class CourseDetail extends Component {
     super(props)
     this.state = {
       course: {},
+      error: null,
       courseOwner: {},
     }
   }
 
   async componentDidMount() {
-  await this.props.context.data.getCourse(this.props.match.params.id).then(response => this.setState({
+  const response = await this.props.context.data.getCourse(this.props.match.params.id)
+  if(response === 404) {
+    this.setState({
+      error: {
+        errName : "404 - Not Found",
+        errDesc: "There is not course with this id"
+      }
+    })
+  } else {
+    this.setState({
       course: response,
       courseOwner: response.user
-    }))
+    })
   }
+}
 
   render() {
+
     return (
-      <div>
-        <div className="actions--bar">
-          <div className="bounds">
-            <div className="grid-100">
-              {this.state.courseOwner.id === this.props.context.authenticatedUser.id ? (<EditCourseButtons course={this.state.course} context={this.props.context}/> ): (null)}
-              <Link className="button button-secondary" to="/">Return to List</Link>
+
+        <div>
+          <div className="actions--bar">
+            <div className="bounds">
+              <div className="grid-100">
+                {this.state.courseOwner.id === this.props.context.authenticatedUser.id ? (<EditCourseButtons course={this.state.course} context={this.props.context}/> ): (null)}
+                <Link className="button button-secondary" to="/">Return to List</Link>
+              </div>
             </div>
           </div>
+          {this.state.error ? <ErrorPage errors={this.state.error}/> : <CourseInformationForm courseData={this.state.course} ownerData={this.state.courseOwner}/>}
         </div>
-        <div className="bounds course--detail">
-          <div className="grid-66">
-            <div className="course--header">
-              <h4 className="course--label">Course</h4>
-              <h3 className="course--title">{this.state.course.title}</h3>
-              <p>by {this.state.courseOwner.firstName} {this.state.courseOwner.lastName}</p>
-            </div>
-            <div className="course--description">
-              <p>{this.state.course.description}</p>
-            </div>
-          </div>
-          <div className="grid-25 grid-right">
-            <div className="course--stats">
-              <ul className="course--stats--list">
-                <li className="course--stats--list--item">
-                  <h4>Estimated Time</h4>
-                  <h3>{this.state.course.estimatedTime}</h3>
-                </li>
-                <li className="course--stats--list--item">
-                  <h4>Materials Needed</h4>
-                  <ul>
-                    <li>{this.state.course.materialsNeeded}</li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
     )
   }
 }
