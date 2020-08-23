@@ -19,30 +19,34 @@ export default class UpdateCourse extends Component {
   }
 
   async componentDidMount() {
-    const response = await this.props.context.data.getCourse(this.props.match.params.id)
-    if(response === 404) {
-      this.setState({
-        error: {
-          errName : "404 - Not Found",
-          errDesc: "There is not course with this id"
-        }
-      })
-    } else {
-      this.setState({
-        id: response.id,
-        title: response.title,
-        description: response.description,
-        estimatedTime: response.estimatedTime,
-        materialsNeeded: response.materialsNeeded,
-        courseOwner: response.user
-      })
-    }
-    if(this.state.courseOwner.id !== this.props.context.authenticatedUser.id) {
-      this.setState({
-        error: {
-          errName : "403 - Forbidden",
-          errDesc: "This course doesn't belong to you, you cannot edit it"
-      }})
+    try{
+      const response = await this.props.context.data.getCourse(this.props.match.params.id)
+      if(response === 404) {
+        this.setState({
+          error: {
+            errName : "404 - Not Found",
+            errDesc: "There is not course with this id"
+          }
+        })
+      } else {
+        this.setState({
+          id: response.id,
+          title: response.title,
+          description: response.description,
+          estimatedTime: response.estimatedTime,
+          materialsNeeded: response.materialsNeeded,
+          courseOwner: response.user
+        })
+      }
+      if(this.state.courseOwner.id !== this.props.context.authenticatedUser.id) {
+        this.setState({
+          error: {
+            errName : "403 - Forbidden",
+            errDesc: "This course doesn't belong to you, you cannot edit it"
+        }})
+      }
+    } catch(error) {
+      this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
     }
   }
 
@@ -77,22 +81,26 @@ export default class UpdateCourse extends Component {
 
   async handleUpdate(e) {
     e.preventDefault();
-    const courseDetails = {
-      id: this.state.id,
-      title: this.state.title,
-      description: this.state.description,
-      estimatedTime: this.state.estimatedTime,
-      materialsNeeded: this.state.materialsNeeded,
-      userId: this.state.courseOwner.id
-    }
-    let response = await this.props.context.data.updateCourse(courseDetails, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
-    console.log(response)
-    if(response) {
-      this.setState({
-        validationErrors: response,
-      })
-    } else {
-      this.props.history.push(`/courses/${this.props.match.params.id}`)
+    try{
+      const courseDetails = {
+        id: this.state.id,
+        title: this.state.title,
+        description: this.state.description,
+        estimatedTime: this.state.estimatedTime,
+        materialsNeeded: this.state.materialsNeeded,
+        userId: this.state.courseOwner.id
+      }
+      let response = await this.props.context.data.updateCourse(courseDetails, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
+      console.log(response)
+      if(response) {
+        this.setState({
+          validationErrors: response,
+        })
+      } else {
+        this.props.history.push(`/courses/${this.props.match.params.id}`)
+      }
+    } catch(error) {
+      this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
     }
   }
 

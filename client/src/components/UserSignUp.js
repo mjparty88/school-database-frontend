@@ -54,33 +54,38 @@ export default class UserSignUp extends Component {
   }
 
   async handleCreateUser(e) {
-    e.preventDefault();
-    if(this.state.password === this.state.confirmPassword){
-      //password validation matches
-      const user = {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        emailAddress: this.state.emailAddress,
-        password: this.state.password
+      e.preventDefault();
+      let user = null;
+      if(this.state.password === this.state.confirmPassword){
+        //password validation matches create a user variable
+        user = {
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          emailAddress: this.state.emailAddress,
+          password: this.state.password
+        }
+      } else { //password validation failed
+        this.setState({
+          validationErrors: {errors: ["Password and Confirm Password Must Match"]}
+        })
       }
-    const response = await this.props.context.data.createUser(user)
-    if(response){
-      //validationErrors were found
-      this.setState({
-        validationErrors: response,
-      })
-    } else {
-      //success - sign in the user and go to the route
-      this.props.context.actions.signIn(this.state.emailAddress, this.state.password)
-      this.props.history.goBack();
+    if(user) { //if the initial validation passes, try and create a user
+      try {
+        const response = await this.props.context.data.createUser(user)
+        if(response){
+          //validationErrors were found
+          this.setState({
+            validationErrors: response,
+          })
+        } else {
+          //success - sign in the user and go to the route
+          this.props.context.actions.signIn(this.state.emailAddress, this.state.password)
+          this.props.history.goBack();
+        }
+      } catch(error) {
+        this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
+      }
     }
-  } else {
-    //password validation failed
-    this.setState({
-      validationErrors: {errors: ["Password and Confirm Password Must Match"]}
-    })
-  }
-
   }
 
 

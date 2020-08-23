@@ -35,7 +35,9 @@ export class Provider extends Component {
 
   signIn = async (username, password) => {
     const user = await this.data.getUser(username, password);
-    if (user !== null) {
+    if (user.errors) { //if there are errors
+      return user; //return the errors
+    } else { //add the user into state and persist the authenticatedUser in context
       user[0].password = password //add the user password into state as its not returned by the API
       this.setState(() => {
         return {
@@ -43,8 +45,8 @@ export class Provider extends Component {
         };
       });
       Cookies.set('authenticatedUser', JSON.stringify(user[0]), {expires: 1});
+      return user;
     }
-    return user;
   }
 
   signOut = () => {

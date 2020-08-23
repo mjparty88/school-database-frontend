@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactMarkdown from 'react-markdown'
 
 export default function CourseInformationForm(props) {
 
@@ -24,7 +25,7 @@ export default function CourseInformationForm(props) {
             <li className="course--stats--list--item">
               <h4>Materials Needed</h4>
               <ul>
-                <li>{props.courseData.materialsNeeded}</li>
+                <ReactMarkdown source={props.courseData.materialsNeeded} />
               </ul>
             </li>
           </ul>

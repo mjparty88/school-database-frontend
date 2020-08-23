@@ -15,19 +15,23 @@ export default class CourseDetail extends Component {
   }
 
   async componentDidMount() {
-  const response = await this.props.context.data.getCourse(this.props.match.params.id)
-  if(response === 404) {
-    this.setState({
-      error: {
-        errName : "404 - Not Found",
-        errDesc: "There is not course with this id"
-      }
-    })
-  } else {
-    this.setState({
-      course: response,
-      courseOwner: response.user
-    })
+  try {  
+    const response = await this.props.context.data.getCourse(this.props.match.params.id)
+    if(response === 404) {
+      this.setState({
+        error: {
+          errName : "404 - Not Found",
+          errDesc: "There is not course with this id"
+        }
+      })
+    } else {
+      this.setState({
+        course: response,
+        courseOwner: response.user
+      })
+    }
+  } catch(error) {
+    this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
   }
 }
 

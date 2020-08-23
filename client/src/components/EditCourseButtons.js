@@ -12,7 +12,7 @@ export default function EditCourseButtons(props) {
   return (
     <span>
       <Link className="button" to={`/courses/${props.course.id}/update`}> Update Course </Link>
-      <Link className="button" onClick={handleDelete}> Delete Course </Link>
+      <span className="button" onClick={handleDelete}> Delete Course </span>
     </span>
   )
 

@@ -13,7 +13,11 @@ export default class Courses extends Component {
   }
 
   async componentDidMount() {
-   await this.props.context.data.getCourses().then(response => this.setState({courses: response}))
+    try{
+      await this.props.context.data.getCourses().then(response => this.setState({courses: response}))
+     } catch(error) {
+       this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
+     }
   }
 
   render() {

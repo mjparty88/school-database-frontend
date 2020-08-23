@@ -17,7 +17,8 @@ export default class Data {
       const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
       options.headers['Authorization'] = `Basic ${encodedCredentials}`;
     }
-    return fetch(url, options);
+
+    return fetch(url, options)
   }
 
 /*
@@ -31,6 +32,7 @@ Summary of calls required (7)
 - POST to USERS
 */
 
+
 // 1. GET to COURSES (works on the index route)
 //doesn't require any authentication
 
@@ -39,7 +41,7 @@ Summary of calls required (7)
     if(response.status === 200) {
       return response.json().then(data => data) //respond with the data
     } else {
-      throw new Error();
+      throw new Error("UnhandledError")
     }
   }
 
@@ -63,7 +65,7 @@ Summary of calls required (7)
     } else if (response.status === 404) {
       return response.status
     } else {
-      throw new Error();
+      throw new Error("UnhandledError")
     }
   }
 
@@ -85,7 +87,7 @@ Summary of calls required (7)
     if(response.status === 204) {
       return [];
     } else {
-      throw new Error();
+      throw new Error("UnhandledError")
     }
   }
 
@@ -93,10 +95,10 @@ Summary of calls required (7)
 
   async getUser(emailAddress, password) {
     const response = await this.api("/users", "GET", null, true, {username: emailAddress, password: password});
-    if(response.status === 200) {
+    if(response.status === 200 || response.status === 401 || response.status === 403) {
       return response.json().then(data => data)
     } else {
-      throw new Error();
+      throw new Error("UnhandledError")
     }
   }
 

@@ -17,17 +17,17 @@ exports.authenticationFunc = async function authenticateUser (req, res, next) {
         next();
       } else {
         res.status(403).json({
-          message: "Forbidden: The password did not match the user credential."
+          errors: ["Forbidden: The password did not match the user credential."]
         })
       }
     } else {
       res.status(403).json({
-        message: "Forbidden: No user matches the credential provided."
+        errors: ["Forbidden: No user matches the credential provided."]
       })
     }
   } else {
     res.status(401).json({
-      message: "Unauthorized: No credentials provided in the WWW-authenticate header."
+      errors: ["Unauthorized: No credentials provided in the WWW-authenticate header."]
     })
   }
 }

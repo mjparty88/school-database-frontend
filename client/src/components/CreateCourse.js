@@ -52,13 +52,17 @@ export default class CreateCourse extends Component {
       materialsNeeded: this.state.Description,
       userId: this.props.context.authenticatedUser.id
     }
-    const response = await this.props.context.data.postCourses(courseInfo, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
-    if(response) {
-      this.setState({
-        errors: response,
-      })
-    } else {
-      this.props.history.push('/')
+    try {
+      const response = await this.props.context.data.postCourses(courseInfo, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
+      if(response) {
+        this.setState({
+          errors: response,
+        })
+      } else {
+        this.props.history.push('/')
+      }
+    } catch(error) {
+      this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
     }
 
   }

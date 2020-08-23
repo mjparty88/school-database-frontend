@@ -1,13 +1,15 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
+import ValidationErrors from './ValidationErrors'
 
 export default class UserSignIn extends Component {
 
   constructor(props){
     super(props)
     this.state = {
-      emailAddress: null,
-      password: null
+      emailAddress: '',
+      password: '',
+      validationErrors: null
     }
   }
 
@@ -29,24 +31,40 @@ export default class UserSignIn extends Component {
     this.props.history.push('/');
   }
 
-  handleSignIn(e){
+  async handleSignIn(e){
     e.preventDefault();
-    this.props.context.actions.signIn(this.state.emailAddress,this.state.password);
-    this.props.history.goBack();
+    let response;
+    try {
+      response = await this.props.context.actions.signIn(this.state.emailAddress,this.state.password);
+      if(response.errors){ //if it works and the response contains validation errors, set them into state
+          this.setState({
+            validationErrors: response,
+          })
+      } else { //go back
+        this.props.history.goBack();
+      }
+    } catch(error) {
+      this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
+    }
   }
 
   render() {
+    let validationErrors;
+    if(this.state.validationErrors) {
+      validationErrors = <ValidationErrors errors={this.state.validationErrors.errors}/>
+    }
     return (
       <div className="bounds">
         <div className="grid-33 centered signin">
           <h1>Sign In</h1>
           <div>
+          {validationErrors}
             <form>
               <div>
-                <input id="emailAddress" name="emailAddress" type="text" onChange={this.handleEmailChange.bind(this)} className placeholder="Email Address"/>
+                <input id="emailAddress" name="emailAddress" type="text" onChange={this.handleEmailChange.bind(this)} placeholder="Email Address"/>
               </div>
               <div>
-                <input id="password" name="password" type="password" onChange={this.handlePasswordChange.bind(this)} className placeholder="Password"/>
+                <input id="password" name="password" type="password" onChange={this.handlePasswordChange.bind(this)} placeholder="Password"/>
               </div>
               <div>
                 <button className="button" type="submit" onClick={this.handleSignIn.bind(this)}>Sign In</button>
