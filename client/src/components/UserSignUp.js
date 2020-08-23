@@ -53,6 +53,19 @@ export default class UserSignUp extends Component {
     this.props.history.push('/');
   }
 
+/**
+ * handleCreateUser(e)
+ * Prevent default form submission behaviour
+ * Declare a user variable
+ * If the password and confirmPassword fields matched, create the user object with the form data -- otherwise create a validation error
+ * If the user object was create, try to pass it into the createUser() function
+ * If an error is encountered while trying to receive a response, catch it and redirect the user to "/error"
+ * If a response is received it will contain validation errors, so load these into state
+ * Otherwise, there should be an empty response, in which case this will indicate the createUser() request was successful. If so, sign the user in.
+ * The user will be redirected to their last location based on the history stack
+ * @param {object} e - An event object
+ */
+
   async handleCreateUser(e) {
       e.preventDefault();
       let user = null;
@@ -92,7 +105,7 @@ export default class UserSignUp extends Component {
   render() {
     let validationErrors
     if(this.state.validationErrors) {
-      validationErrors = <ValidationErrors errors={this.state.validationErrors.errors}/>
+      validationErrors = <ValidationErrors errors={this.state.validationErrors.errors}/> //conditionally render validation errors
     }
     return(
       <div className="bounds">

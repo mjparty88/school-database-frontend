@@ -18,6 +18,15 @@ export default class UpdateCourse extends Component {
     }
   }
 
+/**
+ * componentDidMount()
+ * React Lifecycle Method
+ * Tries to get the course information from the database. If an error is encountered trying to receive the response, this is caught and the user is redirected to "/error" via the history stack
+ * If the response is successfully received, but the response is 404, this this is updated into state
+ * Otherwise the response is loaded into state
+ * Once the course information is loaded into state, the userId of the course is compared against the authenticated user Id. If they do not match, an error is laoded into state.
+*/
+
   async componentDidMount() {
     try{
       const response = await this.props.context.data.getCourse(this.props.match.params.id)
@@ -79,6 +88,16 @@ export default class UpdateCourse extends Component {
     this.props.history.push('/');
   }
 
+/**
+ * handleUpdate(e)
+ * Prevent default form submission behaviour
+ * Try to create a course object and update it into the database
+ * If an error is encountered while trying to receive a response, catch it and redirect the user to "/error"
+ * If a response is received it will contain validation errors, so load these into state
+ * Otherwise, there should be an empty response, in which case this will indicate the update was successful. The user will be redirected to "/courses/:id" via the match params
+ * @param {object} e - An event object
+ */
+
   async handleUpdate(e) {
     e.preventDefault();
     try{
@@ -107,12 +126,16 @@ export default class UpdateCourse extends Component {
 
   render() {
     let content;
-    if(this.state.error) {
-      content = <Redirect to="/forbidden"/>
+    if(this.state.error) { //if there is an error in state, it will be "403 - Forbidden" or "404 - Not Found"
+      if(this.state.error.errName === "403 - Forbidden"){
+        content = <Redirect to="/forbidden"/> //if 403 then conditionally render a redirect to /forbidden
+      } else if (this.state.error.errName === "404 - Not Found") {
+        content = <Redirect to="/notfound"/> //if 404 then conditionally render a redirect to /notfound
+      }
     }
     let validationErrors;
     if(this.state.validationErrors) {
-      validationErrors = <ValidationErrors errors={this.state.validationErrors.errors}/>
+      validationErrors = <ValidationErrors errors={this.state.validationErrors.errors}/> //conditionally render Validation Errors if they are in state
     }
 
     return (

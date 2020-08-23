@@ -14,8 +14,17 @@ export default class CourseDetail extends Component {
     }
   }
 
+/**
+ * componentDidMount()
+ * React Lifecycle Method
+ * Will attempt to get course CourseInformation
+ * If an error is thrown while trying to obtain the data it will redirect to "/error" via the history stack
+ * If the response received 404, update state to reflect that the course wasn't Found
+ * Otherwise update the course object in state to reflect the response
+ */
+
   async componentDidMount() {
-  try {  
+  try {
     const response = await this.props.context.data.getCourse(this.props.match.params.id)
     if(response === 404) {
       this.setState({
@@ -38,11 +47,11 @@ export default class CourseDetail extends Component {
   render() {
     let content;
     if(this.state.error) {
-      content = <Redirect to="/notfound"/>
+      content = <Redirect to="/notfound"/> //conditionally render a redirect to "/notfound" the state includes error
     }
     let editButtons
     if(this.props.context.authenticatedUser) {
-      if(this.state.courseOwner.id === this.props.context.authenticatedUser.id){
+      if(this.state.courseOwner.id === this.props.context.authenticatedUser.id){ //conditionally render EditCourse Buttons (Udpate and Delete) if the user authenticated and they own the course 
         editButtons = <EditCourseButtons course={this.state.course} context={this.props.context}/>
       }
     }

@@ -31,6 +31,16 @@ export default class UserSignIn extends Component {
     this.props.history.push('/');
   }
 
+/**
+ * handleSignIn(e)
+ * Prevent default form submission behaviour
+ * Try to signIn the user with the credentials provided
+ * If an error is encountered while trying to receive a response, catch it and redirect the user to "/error"
+ * If a response is received it will contain validation errors, so load these into state
+ * Otherwise, there should be an empty response, in which case this will indicate the Sign In was successful. The user will be redirected to their last location based on the history stack
+ * @param {object} e - An event object
+ */
+
   async handleSignIn(e){
     e.preventDefault();
     let response;
@@ -51,7 +61,7 @@ export default class UserSignIn extends Component {
   render() {
     let validationErrors;
     if(this.state.validationErrors) {
-      validationErrors = <ValidationErrors errors={this.state.validationErrors.errors}/>
+      validationErrors = <ValidationErrors errors={this.state.validationErrors.errors}/> //conditionally render validation errors
     }
     return (
       <div className="bounds">

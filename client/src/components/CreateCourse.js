@@ -43,6 +43,16 @@ export default class CreateCourse extends Component {
     this.props.history.push('/');
   }
 
+/**
+ * handleCreate()
+ * Prevents default form submission behaviour
+ * Creates a course object
+ * Tries to create a course. If an error is thrown in the process of receiving a response, this is caught and the user is redirected to '/errors' via the history stack
+ * If a response is successfully receive, but the response contains validation errors, these are updated into state
+ * Otherwise, the response will be empty (204 - Resource successfully created) and the user is redirected to the '/'
+ * @param {object} e - and event object
+ */
+
   async handleCreate(e) {
     e.preventDefault();
     const courseInfo = {

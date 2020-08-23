@@ -9,7 +9,7 @@ export default function Header(props) {
         <div className ="bounds">
           <h1 className="header--logo">Courses</h1>
           <nav>
-          { props.context.authenticatedUser ? (
+          { props.context.authenticatedUser ? ( //change the header depending on whether the user is logged in or not
             <Fragment>
               <span>Welcome {props.context.authenticatedUser.firstName} {props.context.authenticatedUser.lastName}</span>
               <Link className="signout" to="/signout">Sign Out</Link>
