@@ -131,7 +131,7 @@ export default class UserSignUp extends Component {
               </div>
               <div className="grid-100 pad-bottom">
                 <button className="button" type="submit" onClick={this.handleCreateUser.bind(this)}>Sign Up</button>
-                <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
+                <button className="button button-secondary" onClick={this.handleCancel.bind(this)}>Cancel</button>
               </div>
             </form>
           </div>

@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react'
+import ErrorItem from './ErrorItem'
 
 export default function ValidationErrors(props) {
   return (
@@ -6,12 +7,9 @@ export default function ValidationErrors(props) {
       <h2 className="validation--errors--label">Validation errors</h2>
       <div className="validation-errors">
         <ul>
-          {props.errors.map(
-            error => { return(
-            <Fragment key={error.indexOf()}>
-              <li>{error}</li>
-            </Fragment>
-          )})}
+          {props.errors.map (
+            error => <ErrorItem key={error} error={error} />
+          )}
         </ul>
       </div>
     </div>
