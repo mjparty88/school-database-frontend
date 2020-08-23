@@ -14,11 +14,7 @@ function asyncHandler(cb){
     try {
       await cb(req, res, next)
     } catch(error){
-      res.status(500).json({
-        message: "Sorry, there was an error",
-        name: error.name,
-        description: error.message
-      });
+      res.status(500).json({ errors : [error.message]})
     }
   }
 }
@@ -62,11 +58,15 @@ apiRouter.post('/users', userValidationChain, asyncHandler(async(req, res) => {
       })
       res.status(201).location('/').end();
     } catch(error) {
-        res.status(500).json({
-          message: "Sorry, there was an error",
-          name: error.name,
-          description: error.message
-        });
+        if(error.name === "SequelizeUniqueConstraintError"){
+          res.status(500).json({ errors : [error.message + ": An account with that email address already exists"]})
+        } else {
+          res.status(500).json({ errors : [error.message+ ": " +error.name]})
+        }
+        //  message: "Sorry, there was an error",
+        //  name: error.name,
+        //  description: error.message
+        //});
       }
     }
 }));
