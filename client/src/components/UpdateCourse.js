@@ -10,8 +10,8 @@ export default class UpdateCourse extends Component {
       id: this.props.match.params.id,
       title: '',
       description: '',
-      estimatedTime: '',
-      materialsNeeded: '',
+      estimatedTime: null,
+      materialsNeeded: null,
       courseOwner: {},
       error: null,
       validationErrors: null
@@ -110,7 +110,6 @@ export default class UpdateCourse extends Component {
         userId: this.state.courseOwner.id
       }
       let response = await this.props.context.data.updateCourse(courseDetails, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
-      console.log(response)
       if(response) {
         this.setState({
           validationErrors: response,

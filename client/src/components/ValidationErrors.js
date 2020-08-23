@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import ErrorItem from './ErrorItem'
 
 export default function ValidationErrors(props) {
