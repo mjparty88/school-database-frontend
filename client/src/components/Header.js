@@ -12,7 +12,7 @@ export default function Header(props) {
           { props.context.authenticatedUser ? (
             <Fragment>
               <span>Welcome {props.context.authenticatedUser.firstName} {props.context.authenticatedUser.lastName}</span>
-              <span className="signout" onClick={props.context.actions.signOut}>Sign Out</span>
+              <Link className="signout" to="/signout">Sign Out</Link>
             </Fragment>
           ) : (
             <Fragment>
