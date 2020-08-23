@@ -97,23 +97,23 @@ export default class UserSignUp extends Component {
           <div>
             <form>
               <div>
-                <input id="firstName" name="firstName" type="text" onChange={this.handleFirstNameChange.bind(this)} className placeholder="First Name"></input>
+                <input id="firstName" name="firstName" type="text" onChange={this.handleFirstNameChange.bind(this)} placeholder="First Name"></input>
               </div>
               <div>
-                <input id="lastName" name="lastName" type="text" onChange={this.handleLastNameChange.bind(this)} className placeholder="First Name"></input>
+                <input id="lastName" name="lastName" type="text" onChange={this.handleLastNameChange.bind(this)} placeholder="First Name"></input>
               </div>
               <div>
-                <input id="emailAddress" name="emailAddress" type="text" onChange={this.handleEmailChange.bind(this)} className placeholder="Email Address"></input>
+                <input id="emailAddress" name="emailAddress" type="text" onChange={this.handleEmailChange.bind(this)} placeholder="Email Address"></input>
               </div>
               <div>
-                <input id="password" name="password" type="password" onChange={this.handlePasswordChange.bind(this)} className placeholder="Password"></input>
+                <input id="password" name="password" type="password" onChange={this.handlePasswordChange.bind(this)} placeholder="Password"></input>
               </div>
               <div>
-                <input id="confirmPassword" name="confirmPassword" type="password" onChange={this.handleConfirmPasswordChange.bind(this)} className placeholder="Confirm Password"></input>
+                <input id="confirmPassword" name="confirmPassword" type="password" onChange={this.handleConfirmPasswordChange.bind(this)} placeholder="Confirm Password"></input>
               </div>
               <div className="grid-100 pad-bottom">
                 <button className="button" type="submit" onClick={this.handleCreateUser.bind(this)}>Sign Up</button>
-                <button className="button button-secondary" onVlick={this.handleCancel}>Cancel</button>
+                <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
               </div>
             </form>
           </div>

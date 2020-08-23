@@ -8,7 +8,7 @@ export default function ValidationErrors(props) {
         <ul>
           {props.errors.map(
             error => { return(
-            <Fragment>
+            <Fragment key={error.indexOf()}>
               <li>{error}</li>
             </Fragment>
           )})}
