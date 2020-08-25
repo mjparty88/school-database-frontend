@@ -51,7 +51,11 @@ export default class UserSignIn extends Component {
             validationErrors: response,
           })
       } else { //go back
-        this.props.history.goBack();
+        if(this.props.location.state) { //this location.state.from prop is provided a redirect.
+          this.props.history.push(this.props.location.state.from.pathname); //if the user came to sign-up from a redirect, go to their intended location
+        } else {
+          this.props.history.goBack(); //go back to the last page in the history stack
+        }
       }
     } catch(error) {
       this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
