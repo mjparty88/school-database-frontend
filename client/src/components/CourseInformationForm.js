@@ -12,7 +12,7 @@ export default function CourseInformationForm(props) {
           <p>by {props.ownerData.firstName} {props.ownerData.lastName}</p>
         </div>
         <div className="course--description">
-          <p>{props.courseData.description}</p>
+          <p><ReactMarkdown source={props.courseData.description}></p>
         </div>
       </div>
       <div className="grid-25 grid-right">
