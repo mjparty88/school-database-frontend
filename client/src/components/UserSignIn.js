@@ -43,19 +43,36 @@ export default class UserSignIn extends Component {
 
   async handleSignIn(e){
     e.preventDefault();
-    let response;
+    let apiResponse;
     try {
-      response = await this.props.context.actions.signIn(this.state.emailAddress,this.state.password);
-      if(response.errors){ //if it works and the response contains validation errors, set them into state
-          this.setState({
-            validationErrors: response,
-          })
-      } else { //go back
-        if(this.props.location.state) { //this location.state.from prop is provided a redirect.
-          this.props.history.push(this.props.location.state.from.pathname); //if the user came to sign-up from a redirect, go to their intended location
-        } else {
-          this.props.history.goBack(); //go back to the last page in the history stack
-        }
+      apiResponse = await this.props.context.actions.signIn(this.state.emailAddress,this.state.password);
+
+      //if there is a apiResponse
+
+      if(apiResponse === 500){ //500 explicitly thrown by the API
+
+          this.props.history.push("/error");
+
+      }
+
+      if(apiResponse.errors) { //validation errors were returned, set them into state
+
+        this.setState({validationErrors: apiResponse})
+        console.log("im here")
+
+      }
+
+      if(apiResponse[0].id) { //if the apiReponse yields and id field
+
+          if(this.props.location.state) { //this location.state.from prop is provided a redirect.
+
+            this.props.history.push(this.props.location.state.from.pathname); //if the user came to sign-up from a redirect, go to their intended location
+
+          } else {
+
+            this.props.history.goBack(); //go back to the last page in the history stack
+
+          }
       }
     } catch(error) {
       this.props.history.push("/error") //if the data request doesn't work at all, go to the error page

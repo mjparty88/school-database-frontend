@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {Redirect} from 'react-router-dom'
 import ValidationErrors from './ValidationErrors'
 
 export default class UpdateCourse extends Component {
@@ -13,7 +12,6 @@ export default class UpdateCourse extends Component {
       estimatedTime: null,
       materialsNeeded: null,
       courseOwner: {},
-      error: null,
       validationErrors: null
     }
   }
@@ -29,31 +27,30 @@ export default class UpdateCourse extends Component {
 
   async componentDidMount() {
     try{
-      const response = await this.props.context.data.getCourse(this.props.match.params.id)
-      if(response === 404) {
-        this.setState({
-          error: {
-            errName : "404 - Not Found",
-            errDesc: "There is not course with this id"
-          }
-        })
-      } else {
-        this.setState({
-          id: response.id,
-          title: response.title,
-          description: response.description,
-          estimatedTime: response.estimatedTime,
-          materialsNeeded: response.materialsNeeded,
-          courseOwner: response.user
-        })
-      }
-      if(this.state.courseOwner.id !== this.props.context.authenticatedUser.id) {
-        this.setState({
-          error: {
-            errName : "403 - Forbidden",
-            errDesc: "This course doesn't belong to you, you cannot edit it"
-        }})
-      }
+      const apiResponse = await this.props.context.data.getCourse(this.props.match.params.id)
+
+      switch(apiResponse){
+        case 500: //500 explicitly returned by the API
+          this.props.history.push("/error");
+          break;
+        case 404: //404 not found
+          this.props.history.push('/notfound')
+          break;
+        default: //successful retrieval of the course
+          this.setState({
+            id: apiResponse.id,
+            title: apiResponse.title,
+            description: apiResponse.description,
+            estimatedTime: apiResponse.estimatedTime,
+            materialsNeeded: apiResponse.materialsNeeded,
+            courseOwner: apiResponse.user
+          })
+        }
+
+        if(this.state.courseOwner.id !== this.props.context.authenticatedUser.id) {
+          this.props.history.push("/forbidden") //sends the user to /forbidden if they not the authenticated user
+        }
+
     } catch(error) {
       this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
     }
@@ -109,14 +106,20 @@ export default class UpdateCourse extends Component {
         materialsNeeded: this.state.materialsNeeded,
         userId: this.state.courseOwner.id
       }
-      let response = await this.props.context.data.updateCourse(courseDetails, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
-      if(response) {
-        this.setState({
-          validationErrors: response,
-        })
-      } else {
-        this.props.history.push(`/courses/${this.props.match.params.id}`)
+      let apiResponse = await this.props.context.data.updateCourse(courseDetails, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
+
+
+      switch(apiResponse) {
+          case null: //204 success
+            this.props.history.push(`/courses/${this.props.match.params.id}`)
+            break;
+          case 500: //500 explicity thrown by the API
+            this.props.history.push("/errors")
+            break;
+          default: //default behaviour is to return validation errors
+            this.setState({validationErrors: apiResponse})
       }
+
     } catch(error) {
       this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
     }
@@ -124,14 +127,7 @@ export default class UpdateCourse extends Component {
 
 
   render() {
-    let content;
-    if(this.state.error) { //if there is an error in state, it will be "403 - Forbidden" or "404 - Not Found"
-      if(this.state.error.errName === "403 - Forbidden"){
-        content = <Redirect to="/forbidden"/> //if 403 then conditionally render a redirect to /forbidden
-      } else if (this.state.error.errName === "404 - Not Found") {
-        content = <Redirect to="/notfound"/> //if 404 then conditionally render a redirect to /notfound
-      }
-    }
+
     let validationErrors;
     if(this.state.validationErrors) {
       validationErrors = <ValidationErrors errors={this.state.validationErrors.errors}/> //conditionally render Validation Errors if they are in state
@@ -140,7 +136,6 @@ export default class UpdateCourse extends Component {
     return (
 
       <div className="bounds course--details">
-      {content}
         <h1>Update Course</h1>
         <div>
           {validationErrors}
@@ -151,7 +146,7 @@ export default class UpdateCourse extends Component {
                 <div>
                   <input id="title" name="title" type="text" className="input-title course--title--input" onChange={this.handleTitleChange.bind(this)} placeholder="Course title..." value={this.state.title}></input>
                 </div>
-                <p>By {this.state.courseOwner.firstName} {this.state.courseOwner.lastName}</p>
+                {this.state.courseOwner? (<p>By {this.state.courseOwner.firstName} {this.state.courseOwner.lastName}</p>) : null }
               </div>
               <div className="course--description">
                 <div>

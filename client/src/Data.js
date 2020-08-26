@@ -39,11 +39,15 @@ export default class Data {
 
   async getCourses() {
     const response = await this.api("/courses", "GET", null, null);
-    if(response.status === 200) {
-      return response.json().then(data => data) //respond with the data
-    } else {
-      throw new Error("UnhandledError")
+    let output;
+    switch(response.status) {
+      case 200:
+        output = response.json().then(data => data);
+        break;
+      default:
+        output = 500;
     }
+    return output;
   }
 
 /**
@@ -55,12 +59,19 @@ export default class Data {
  */
 
   async postCourses(course, emailAddress, password) {
+    let output;
     const response = await this.api("/courses", "POST", course, true, {username: emailAddress, password: password})
-    if(response.status === 201) {
-      return null;
-    } else {
-      return response.json().then(data => data) //returned payload with the errors provided by the  API
+    switch(response.status){
+      case 201:
+        output = null;
+        break;
+      case 500:
+        output = 500;
+        break;
+      default:
+        output = response.json().then(data => data)
     }
+    return output
   }
 
 /**
@@ -70,14 +81,19 @@ export default class Data {
  */
 
   async getCourse(id) {
+    let output;
     const response = await this.api(`/courses/${id}`, "GET", null, null);
-    if(response.status === 200) {
-      return response.json().then(data => data)
-    } else if (response.status === 404) {
-      return response.status
-    } else {
-      throw new Error("UnhandledError")
+    switch(response.status){
+      case 200:
+        output = response.json().then(data => data);
+        break;
+      case 404:
+        output = 404;
+        break;
+      default:
+        output = 500;
     }
+    return output;
   }
 
 /**
@@ -89,12 +105,19 @@ export default class Data {
  */
 
   async updateCourse(course, emailAddress, password) {
+    let output;
     const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {username: emailAddress, password: password})
-    if(response.status === 204) {
-      return null;
-    } else {
-      return response.json().then(data => data) //.json().then(data => data) //returned payload with the errors provided by the  API
+    switch(response.status){
+      case 204: //successful
+        output = null;
+        break;
+      case 500: //500 error
+        output = 500;
+        break;
+      default:
+        output = response.json().then(data => data) //.json().then(data => data) //returned payload with the errors provided by the  API
     }
+    return output;
   }
 
 /**
@@ -106,12 +129,19 @@ export default class Data {
  */
 
   async deleteCourse(course, emailAddress, password) {
+    let output
     const response = await this.api(`/courses/${course.id}`, 'DELETE', course, true, {username: emailAddress, password: password})
-    if(response.status === 204) {
-      return [];
-    } else {
-      throw new Error("UnhandledError")
+    switch(response.status){
+      case 204:
+        output = null;
+        break;
+      case 404:
+        output = 404;
+        break;
+      default:
+        output = 500;
     }
+    return output
   }
 
 /**
@@ -122,12 +152,22 @@ export default class Data {
 */
 
   async getUser(emailAddress, password) {
+    let output;
     const response = await this.api("/users", "GET", null, true, {username: emailAddress, password: password});
-    if(response.status === 200 || response.status === 401 || response.status === 403) {
-      return response.json().then(data => data)
-    } else {
-      throw new Error("UnhandledError")
+    switch(response.status) {
+      case 200:
+        output = response.json().then(data => data)
+        break;
+      case 401:
+        output = response.json().then(data => data);
+        break;
+      case 402:
+        output = response.json().then(data => data);
+        break;
+      default:
+        output = 500;
     }
+    return output;
   }
 
 /**
@@ -137,12 +177,18 @@ export default class Data {
 */
 
   async createUser(user) {
+    let output
     const response = await this.api("/users", "POST", user);
-    if(response.status === 201){
-      return null;
-    } else {
-      return response.json().then(data => data)
+    switch(response.status) {
+        case 201:
+          output = null;
+          break;
+        case 500:
+          output = 500;
+          break;
+        default:
+          output = response.json().then(data => data)
     }
+    return output
   }
-
 }

@@ -84,16 +84,17 @@ export default class UserSignUp extends Component {
       }
     if(user) { //if the initial validation passes, try and create a user
       try {
-        const response = await this.props.context.data.createUser(user)
-        if(response){
-          //validationErrors were found
-          this.setState({
-            validationErrors: response,
-          })
-        } else {
-          //success - sign in the user and go to the route
-          this.props.context.actions.signIn(this.state.emailAddress, this.state.password)
-          this.props.history.goBack();
+        const apiResponse = await this.props.context.data.createUser(user)
+        switch(apiResponse){
+          case null: //201 successful creation
+            this.props.context.actions.signIn(this.state.emailAddress, this.state.password) //signed the user in
+            this.props.history.goBack(); //goBack
+            break;
+          case 500: //500 returned by the API
+            this.props.history.push("/error")
+            break;
+          default: //validation errors
+            this.setState({ validationErrors: apiResponse })
         }
       } catch(error) {
         this.props.history.push("/error") //if the data request doesn't work at all, go to the error page

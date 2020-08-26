@@ -63,13 +63,16 @@ export default class CreateCourse extends Component {
       userId: this.props.context.authenticatedUser.id
     }
     try {
-      const response = await this.props.context.data.postCourses(courseInfo, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
-      if(response) {
-        this.setState({
-          errors: response,
-        })
-      } else {
-        this.props.history.push('/')
+      const apiResponse = await this.props.context.data.postCourses(courseInfo, this.props.context.authenticatedUser.emailAddress, this.props.context.authenticatedUser.password)
+      switch(apiResponse){
+        case null: //201 success with no response
+          this.props.history.push('/')
+          break;
+        case 500: //500 thrown by the API
+          this.props.history.push('/error');
+          break;
+        default: //validation errors
+          this.setState({errors: apiResponse})
       }
     } catch(error) {
       this.props.history.push("/error") //if the data request doesn't work at all, go to the error page

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import EditCourseButtons from './EditCourseButtons'
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import CourseInformationForm from './CourseInformationForm'
 
 export default class CourseDetail extends Component {
@@ -9,7 +9,6 @@ export default class CourseDetail extends Component {
     super(props)
     this.state = {
       course: {},
-      error: null,
       courseOwner: {},
     }
   }
@@ -25,19 +24,16 @@ export default class CourseDetail extends Component {
 
   async componentDidMount() {
   try {
-    const response = await this.props.context.data.getCourse(this.props.match.params.id)
-    if(response === 404) {
-      this.setState({
-        error: {
-          errName : "404 - Not Found",
-          errDesc: "There is not course with this id"
-        }
-      })
-    } else {
-      this.setState({
-        course: response,
-        courseOwner: response.user
-      })
+    const apiResponse = await this.props.context.data.getCourse(this.props.match.params.id)
+    switch(apiResponse) {
+      case 404:
+        this.props.history.push("/notfound");
+        break;
+      case 500:
+        this.props.history.push("/error");
+        break;
+      default:
+        this.setState({course: apiResponse, courseOwner: apiResponse.user})
     }
   } catch(error) {
     this.props.history.push("/error") //if the data request doesn't work at all, go to the error page
@@ -45,19 +41,18 @@ export default class CourseDetail extends Component {
 }
 
   render() {
-    let content;
-    if(this.state.error) {
-      content = <Redirect to="/notfound"/> //conditionally render a redirect to "/notfound" the state includes error
-    }
     let editButtons
-    if(this.props.context.authenticatedUser) {
-      if(this.state.courseOwner.id === this.props.context.authenticatedUser.id){ //conditionally render EditCourse Buttons (Udpate and Delete) if the user authenticated and they own the course 
-        editButtons = <EditCourseButtons course={this.state.course} context={this.props.context}/>
+    if(this.props.context.authenticatedUser && this.state.course) {
+      if(this.state.courseOwner.id === this.props.context.authenticatedUser.id){ //conditionally render EditCourse Buttons (Udpate and Delete) if the user authenticated and they own the course
+        editButtons = <EditCourseButtons course={this.state.course} history={this.props.history} context={this.props.context}/> //don't know why I needed to pass the history manually here, perhaps because the EditCourseButtons isn't specifically wrapped in the Router. Manually passing history as a workaround.
       }
+    }
+    let courseInfo;
+    if(this.state.course && this.state.courseOwner) {
+      courseInfo = <CourseInformationForm courseData={this.state.course} ownerData={this.state.courseOwner}/>
     }
     return (
         <div>
-        {content}
           <div className="actions--bar">
             <div className="bounds">
               <div className="grid-100">
@@ -66,7 +61,7 @@ export default class CourseDetail extends Component {
               </div>
             </div>
           </div>
-          <CourseInformationForm courseData={this.state.course} ownerData={this.state.courseOwner}/>
+          {courseInfo}
         </div>
     )
   }
